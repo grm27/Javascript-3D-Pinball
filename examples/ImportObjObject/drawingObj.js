@@ -1,25 +1,19 @@
 var program;
 var gl;
-var shaderDir; 
+var shaderDir;
 var baseDir;
 var pigModel;
 var modelStr = 'Atoms/NucleusH.obj';
 var modelTexture = 'model/texture.png';
 
 function main() {
-    
+
     var lastUpdateTime = (new Date).getTime();
-    
+
     var Rx = 0.0;
     var Ry = 0.0;
     var Rz = 0.0;
     var S  = 1.0;
-
-    utils.resizeCanvasToDisplaySize(gl.canvas);
-    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.clearColor(0.85, 1.0, 0.85, 1.0); 
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-    gl.enable(gl.DEPTH_TEST);
 
     //###################################################################################
     //Here we extract the position of the vertices, the normals, the indices, and the uv coordinates
@@ -29,9 +23,9 @@ function main() {
     var pigTexCoords = pigModel.textures;
     //###################################################################################
 
-    var positionAttributeLocation = gl.getAttribLocation(program, "a_position");  
-    var uvAttributeLocation = gl.getAttribLocation(program, "a_uv");  
-    var matrixLocation = gl.getUniformLocation(program, "matrix");  
+    var positionAttributeLocation = gl.getAttribLocation(program, "a_position");
+    var uvAttributeLocation = gl.getAttribLocation(program, "a_uv");
+    var matrixLocation = gl.getUniformLocation(program, "matrix");
     var textLocation = gl.getUniformLocation(program, "u_texture");
 
     var perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width/gl.canvas.height, 0.1, 100.0);
@@ -54,7 +48,7 @@ function main() {
 
     var indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pigIndices), gl.STATIC_DRAW); 
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(pigIndices), gl.STATIC_DRAW);
 
     var texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -69,21 +63,21 @@ function main() {
               gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
     gl.generateMipmap(gl.TEXTURE_2D);
     };
-    
+
     drawScene();
-    
+
     function animate(){
     var currentTime = (new Date).getTime();
     if(lastUpdateTime != null){
       var deltaC = (30 * (currentTime - lastUpdateTime)) / 1000.0;
       Rx += deltaC;
       Ry -= deltaC;
-      Rz += deltaC;    
+      Rz += deltaC;
     }
     worldMatrix = utils.MakeWorld(0.0, 0.0, 0.0, Rx, Ry, Rz, S);
-    lastUpdateTime = currentTime;               
+    lastUpdateTime = currentTime;
   }
-    
+
     function drawScene() {
     animate();
 
@@ -107,7 +101,7 @@ function main() {
 }
 
 async function init(){
-  
+
     var path = window.location.pathname;
     var page = path.split("/").pop();
     baseDir = window.location.href.replace(page, '');
@@ -127,13 +121,13 @@ async function init(){
 
     });
     gl.useProgram(program);
-    
+
     //###################################################################################
     //This loads the obj model in the pigModel variable
     var pigObjStr = await utils.get_objstr(baseDir+ modelStr);
     pigModel = new OBJ.Mesh(pigObjStr);
     //###################################################################################
-    
+
     main();
 }
 

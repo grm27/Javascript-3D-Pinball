@@ -1,17 +1,10 @@
 var program;
 var gl;
-var shaderDir;
-var baseDir;
-var tableModel;
+let modelList = [];
 var modelStr = 'assets/objects/Body.obj';
 var modelTexture = 'assets/StarWarsPinball.png';
 
 async function init() {
-
-    const path = window.location.pathname;
-    const page = path.split("/").pop();
-    baseDir = window.location.href.replace(page, '');
-    shaderDir = baseDir + "render-engine/shaders/";
 
     let canvas = document.getElementById("c");
     gl = canvas.getContext("webgl2");
@@ -30,15 +23,18 @@ async function init() {
     gl.useProgram(program);
 
     //###################################################################################
-    //This loads the obj model
-    let tableModelStr = await utils.get_objstr(baseDir + modelStr);
-    tableModel = new OBJ.Mesh(tableModelStr);
+    //This loads the obj models
+    for (let i = 0; i < modelSources.length; i++) {
+        let objStr = await utils.get_objstr(modelSources[i]);
+        modelList.push(new OBJ.Mesh(objStr));
+    }
     //###################################################################################
 
     main();
 }
 
-function main(){
+
+function main() {
 
     let objProp = loadModelProperties();
     let glslProperties = loadGlslProperties();
@@ -59,11 +55,36 @@ function loadModelProperties() {
 
     //Here we extract the position of the vertices, the normals, the indices, and the uv coordinates
     return {
-        tableVertices: tableModel.vertices,
-        tableNormals: tableModel.vertexNormals,
-        tableIndices: tableModel.indices,
-        tableTexCoords: tableModel.textures
+        tableVertices: modelList[objectIndex.BALL].vertices,
+        tableNormals: modelList[objectIndex.BALL].vertexNormals,
+        tableIndices: modelList[objectIndex.BALL].indices,
+        tableTexCoords: modelList[objectIndex.BALL].textures
     }
+}
+
+function buildSceneGraph() {
+
+    let ballNode = new Node();
+    let dl1Node = new Node();
+    let dl2Node = new Node();
+    let dl3Node = new Node();
+    let dl4Node = new Node();
+    let dl5Node = new Node();
+    let dl6Node = new Node();
+    let dr1Node = new Node();
+    let dr2Node = new Node();
+    let dr3Node = new Node();
+    let dr4Node = new Node();
+    let dr5Node = new Node();
+    let dr6Node = new Node();
+    let leftFlipperNode = new Node();
+    let rightFlipperNode = new Node();
+    let leftButtonNode = new Node();
+    let rightButtonNode = new Node();
+    let pullerNode = new Node()
+    let bumper1Node = new Node();
+    let bumper2Node = new Node();
+    let bumper3Node = new Node();
 }
 
 function loadGlslProperties() {
@@ -77,15 +98,10 @@ function loadGlslProperties() {
 }
 
 function bindModelProperties(objProp, glslProperties) {
+
     let lastUpdateTime = (new Date).getTime();
-
-    let Rx = 0.0;
-    let Ry = 0.0;
-    let Rz = 0.0;
-    let S = 3.0;
-
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
-    let viewMatrix = utils.MakeView(0, 0.0, 3.0, 0.0, 0.0);
+    let viewMatrix = utils.MakeView(0.0, 0.0, 0.0, 0.0, 0.0);
 
     let vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
@@ -123,14 +139,15 @@ function bindModelProperties(objProp, glslProperties) {
     drawScene();
 
     function animate() {
-        var currentTime = (new Date).getTime();
+        let currentTime = (new Date).getTime();
         if (lastUpdateTime != null) {
-            var deltaC = (30 * (currentTime - lastUpdateTime)) / 1000.0;
-      //      Rx += deltaC;
-        ////    Ry -= deltaC;
-      //      Rz += deltaC;
+            let deltaC = (30 * (currentTime - lastUpdateTime)) / 1000.0;
+            /**       Rx += deltaC;
+             Ry -= deltaC;
+             Rz += deltaC;*/
         }
-        worldMatrix = utils.MakeWorld(-5.0, -5.0, -5.0, Rx, Ry, Rz, S);
+
+        worldMatrix = utils.MakeWorld(-0.30053, 8.5335, -5.9728, 0.0, 0.0, 0.0, 1.0);
         lastUpdateTime = currentTime;
     }
 
@@ -141,8 +158,8 @@ function bindModelProperties(objProp, glslProperties) {
         gl.clearColor(0.85, 0.85, 0.85, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
-        var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
+        let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
+        let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
         gl.uniformMatrix4fv(glslProperties.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
 

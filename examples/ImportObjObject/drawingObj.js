@@ -3,7 +3,7 @@ var gl;
 var shaderDir;
 var baseDir;
 var pigModel;
-var modelStr = 'Atoms/NucleusH.obj';
+var modelStr = 'model/pigmech.obj';
 var modelTexture = 'model/texture.png';
 
 function main() {

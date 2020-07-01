@@ -13,9 +13,6 @@ function draw(perspectiveMatrix, viewMatrix) {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     graph.forEach(function (node) {
-        var perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
-        var viewMatrix = utils.MakeView(0.0, 0.0, 0.0, 0.0, 0.0);
-
         console.log(node);
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);

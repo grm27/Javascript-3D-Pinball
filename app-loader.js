@@ -90,7 +90,7 @@ function buildSceneGraph() {
     dl6Node.localMatrix = localMatrices[objectIndex.DL6];
 
     let dr1Node = new Node();
-    dr1Node.drawInfo = loadModelProperties(objectIndex.BALL)
+    dr1Node.drawInfo = loadModelProperties(objectIndex.DR1)
     dr1Node.localMatrix = localMatrices[objectIndex.DR1];
 
     let dr2Node = new Node();

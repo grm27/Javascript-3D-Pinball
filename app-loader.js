@@ -47,7 +47,7 @@ async function init() {
 
 function initGlContext() {
 
-    utils.resizeCanvasToDisplaySize(gl.canvas);
+    // utils.resizeCanvasToDisplaySize(gl.canvas);
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.clearColor(0.85, 1.0, 0.85, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -252,3 +252,19 @@ function bindModelProperties() {
 }
 
 window.onload = init;
+
+window.addEventListener("keydown", upArrowDown, false);
+window.addEventListener("keydown", downArrowDown, false);
+window.addEventListener("keydown", leftArrowDown, false);
+window.addEventListener("keydown", rightArrowDown, false);
+
+window.addEventListener("keyup", upArrowUp, false);
+window.addEventListener("keyup", downArrowUp, false);
+window.addEventListener("keyup", leftArrowUp, false);
+window.addEventListener("keyup", rightArrowUp, false);
+
+window.addEventListener("keydown", paletteUPMovement, false);
+window.addEventListener("keyup", paletteDOWNMovement, false);
+window.addEventListener("keydown", resetBall, false);
+window.addEventListener("keydown", reloaderUPMovement, false);
+window.addEventListener("keyup", reloaderDOWNMovement, false);

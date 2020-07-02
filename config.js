@@ -1,11 +1,13 @@
+//Project locations constants
 const PATH = window.location.pathname;
 const PAGE = PATH.split('/').pop();
 const BASE_DIR = window.location.href.replace(PAGE, '');
 const SHADER_DIR = BASE_DIR + "render-engine/shaders/";
-
 const ASSETS_OBJECT_DIR = "assets/objects/";
 const ASSETS_TEXTURE_DIR = "assets/StarWarsPinball.png";
 
+
+//Scene object constants
 const objectIndex = {
     BALL: 0,
     BODY: 1,
@@ -32,7 +34,7 @@ const objectIndex = {
 }
 
 
-let modelSources = [
+const modelSources = [
     BASE_DIR + ASSETS_OBJECT_DIR + "Ball.obj",
     BASE_DIR + ASSETS_OBJECT_DIR + "Body.obj",
     BASE_DIR + ASSETS_OBJECT_DIR + "bumper1.obj",
@@ -58,10 +60,10 @@ let modelSources = [
 ];
 
 
-let localMatrices = [
+const localMatrices = [
     utils.MakeWorld(-0.30053, 8.5335, -5.9728, 0.0, 0.0, 0.0, 1.0),
     //TODO set right world matrix for BODY
-    utils.MakeWorld(3.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0),
+    utils.MakeWorld(3.0, 0.0, 0.5, 0.0, 0.0, 0.0, 7.0),
     utils.MakeWorld(1.1819, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
     utils.MakeWorld(-1.5055, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
     utils.MakeWorld(-0.11626, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
@@ -83,3 +85,10 @@ let localMatrices = [
     utils.MakeWorld(-1.307, 8.4032, -5.6357, 150.0, -3.24, -5.64, 1.0),
     utils.MakeWorld(-2.5264, 8.3925, -7.5892, 0.0, -90.0, 0.0, 1.0)
 ];
+
+//Camera constants
+const CAM_MAX_X = 5.0;
+const CAM_MAX_Y = 5.0;
+const CAM_MIN_X = -5.0;
+const CAM_MIN_Y = -5.0;
+const CAMERA_STEP = 0.02;

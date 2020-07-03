@@ -59,7 +59,7 @@ const modelSources = [
     BASE_DIR + ASSETS_OBJECT_DIR + "Puller.obj",
 ];
 
-
+//same order of model sources and object index
 const localMatrices = [
     utils.MakeWorld(-0.30053, 8.5335, -5.9728, 0.0, 0.0, 0.0, 1.0),
     //TODO set right world matrix for BODY
@@ -91,4 +91,10 @@ const CAM_MAX_X = 5.0;
 const CAM_MAX_Y = 5.0;
 const CAM_MIN_X = -5.0;
 const CAM_MIN_Y = -5.0;
+const CAM_MAX_ELEVATION = 90.0;
+const CAM_MAX_ANGLE = 90.0;
+const CAM_MIN_ELEVATION = -90.0;
+const CAM_MIN_ANGLE = -90.0;
 const CAMERA_STEP = 0.02;
+const CAMERA_ANGLE_STEP = 1.0;
+

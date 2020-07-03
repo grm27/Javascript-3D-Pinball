@@ -220,10 +220,10 @@ function loadGlslProperties() {
 function bindModelProperties() {
 
     graph.forEach(function (node) {
-        let vao = gl.createVertexArray();
-        node.drawInfo.vao = vao;
+        node.drawInfo.vao = gl.createVertexArray();
 
-        gl.bindVertexArray(vao);
+        gl.bindVertexArray(node.drawInfo.vao);
+
         let positionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.vertices), gl.STATIC_DRAW);
@@ -262,6 +262,16 @@ window.addEventListener("keyup", upArrowUp, false);
 window.addEventListener("keyup", downArrowUp, false);
 window.addEventListener("keyup", leftArrowUp, false);
 window.addEventListener("keyup", rightArrowUp, false);
+
+window.addEventListener("keydown", uDown, false);
+window.addEventListener("keydown", jDown, false);
+window.addEventListener("keydown", hDown, false);
+window.addEventListener("keydown", kDown, false);
+
+window.addEventListener("keyup", uUp, false);
+window.addEventListener("keyup", jUp,  false);
+window.addEventListener("keyup", hUp,  false);
+window.addEventListener("keyup", kUp,  false);
 
 window.addEventListener("keydown", paletteUPMovement, false);
 window.addEventListener("keyup", paletteDOWNMovement, false);

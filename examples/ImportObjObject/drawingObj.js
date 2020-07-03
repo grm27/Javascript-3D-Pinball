@@ -3,8 +3,8 @@ var gl;
 var shaderDir;
 var baseDir;
 var pigModel;
-var modelStr = 'model/pigmech.obj';
-var modelTexture = 'model/texture.png';
+var modelStr = 'model/LeftButton.obj';
+var modelTexture = 'model/StarWarsPinball.png';
 
 function main() {
 
@@ -14,6 +14,12 @@ function main() {
     var Ry = 0.0;
     var Rz = 0.0;
     var S  = 1.0;
+
+    utils.resizeCanvasToDisplaySize(gl.canvas);
+    gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
+    gl.clearColor(0.85, 1.0, 0.85, 1.0);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    gl.enable(gl.DEPTH_TEST);
 
     //###################################################################################
     //Here we extract the position of the vertices, the normals, the indices, and the uv coordinates
@@ -56,48 +62,48 @@ function main() {
     var image = new Image();
     image.src = baseDir+modelTexture;
     image.onload= function() {
-    gl.bindTexture(gl.TEXTURE_2D, texture);
-              gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
-              gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-              gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-    gl.generateMipmap(gl.TEXTURE_2D);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.generateMipmap(gl.TEXTURE_2D);
     };
 
     drawScene();
 
     function animate(){
-    var currentTime = (new Date).getTime();
-    if(lastUpdateTime != null){
-      var deltaC = (30 * (currentTime - lastUpdateTime)) / 1000.0;
-      Rx += deltaC;
-      Ry -= deltaC;
-      Rz += deltaC;
+        var currentTime = (new Date).getTime();
+        if(lastUpdateTime != null){
+            var deltaC = (30 * (currentTime - lastUpdateTime)) / 1000.0;
+            Rx += deltaC;
+            Ry -= deltaC;
+            Rz += deltaC;
+        }
+        worldMatrix = utils.MakeWorld(0.0, 0.0, 0.0, Rx, Ry, Rz, S);
+        lastUpdateTime = currentTime;
     }
-    worldMatrix = utils.MakeWorld(0.0, 0.0, 0.0, Rx, Ry, Rz, S);
-    lastUpdateTime = currentTime;
-  }
 
     function drawScene() {
-    animate();
+        animate();
 
-    utils.resizeCanvasToDisplaySize(gl.canvas);
-    gl.clearColor(0.85, 0.85, 0.85, 1.0);
-    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        utils.resizeCanvasToDisplaySize(gl.canvas);
+        gl.clearColor(0.85, 0.85, 0.85, 1.0);
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
-    var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
+        var viewWorldMatrix = utils.multiplyMatrices(viewMatrix, worldMatrix);
+        var projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
-    gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+        gl.uniformMatrix4fv(matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
 
-    gl.activeTexture(gl.TEXTURE0);
-    gl.uniform1i(textLocation, texture);
+        gl.activeTexture(gl.TEXTURE0);
+        gl.uniform1i(textLocation, texture);
 
-    gl.bindVertexArray(vao);
-    gl.drawElements(gl.TRIANGLES, pigIndices.length, gl.UNSIGNED_SHORT, 0 );
+        gl.bindVertexArray(vao);
+        gl.drawElements(gl.TRIANGLES, pigIndices.length, gl.UNSIGNED_SHORT, 0 );
 
-    window.requestAnimationFrame(drawScene);
-  }
+        window.requestAnimationFrame(drawScene);
+    }
 }
 
 async function init(){
@@ -115,9 +121,9 @@ async function init(){
     }
 
     await utils.loadFiles([shaderDir + 'vs.glsl', shaderDir + 'fs.glsl'], function (shaderText) {
-      var vertexShader = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
-      var fragmentShader = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
-      program = utils.createProgram(gl, vertexShader, fragmentShader);
+        var vertexShader = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
+        var fragmentShader = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
+        program = utils.createProgram(gl, vertexShader, fragmentShader);
 
     });
     gl.useProgram(program);
@@ -132,4 +138,3 @@ async function init(){
 }
 
 window.onload = init;
-

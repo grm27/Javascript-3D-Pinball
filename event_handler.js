@@ -50,7 +50,7 @@ function rightArrowDown(e)
 }
 
 
-//LEFT
+//RIGHT
 function rightArrowUp(e)
 {
     if(e.key === "ArrowRight") //right arrow
@@ -79,6 +79,85 @@ function leftArrowUp(e)
     }
 }
 
+
+let uPressed = false;
+function uDown(e)
+{
+    if(e.key === "u") //up arrow
+    {
+
+        uPressed = true;
+    }
+}
+
+function uUp(e)
+{
+    if(e.key === "u") //up bar
+    {
+
+        uPressed = false;
+    }
+}
+
+
+let jPressed = false;
+function jDown(e)
+{
+    if(e.key === "j") //down arrow
+    {
+
+        jPressed = true;
+    }
+}
+
+function jUp(e)
+{
+    if(e.key === "j") //down arrow
+    {
+
+        jPressed = false;
+    }
+}
+
+
+let hPressed = false;
+function hDown(e)
+{
+    if(e.key === "h") //right arrow
+    {
+
+        hPressed = true;
+    }
+}
+
+
+function hUp(e)
+{
+    if(e.key === "h") //right arrow
+    {
+
+        hPressed = false;
+    }
+}
+
+let kPressed = false;
+function kDown(e)
+{
+    if(e.key === "k") //left arrow
+    {
+
+        kPressed = true;
+    }
+}
+
+function kUp(e)
+{
+    if(e.key === "k") //left arrow
+    {
+
+        kPressed = false;
+    }
+}
 
 
 // PALETTE KEY PRESS

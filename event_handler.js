@@ -159,6 +159,25 @@ function kUp(e)
     }
 }
 
+let rPressed = false;
+function kDown(e)
+{
+    if(e.key === "r") //left arrow
+    {
+
+        rPressed = true;
+    }
+}
+
+function kUp(e)
+{
+    if(e.key === "r") //left arrow
+    {
+
+        rPressed = false;
+    }
+}
+
 
 // PALETTE KEY PRESS
 var p1UP = false;

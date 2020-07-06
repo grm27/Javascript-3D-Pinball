@@ -1,8 +1,14 @@
-let camera_x = 0.0;
-let camera_y = 13.0;
-let camera_z = -7.3;
-let camera_elevation = -40.0;
-let camera_angle = 180.0;
+const CAMERA_X = 0.0;
+const CAMERA_Y = 13.0;
+const CAMERA_Z = -7.3;
+const CAMERA_ELEVATION = -40.0;
+const CAMERA_ANGLE = 180.0;
+
+let camera_x = CAMERA_X;
+let camera_y = CAMERA_Y;
+let camera_z = CAMERA_Z;
+let camera_elevation = CAMERA_ELEVATION;
+let camera_angle = CAMERA_ANGLE;
 
 function main() {
 
@@ -111,6 +117,14 @@ function updateViewMatrix() {
         if ((camera_angle - CAMERA_ANGLE_STEP) > CAM_MIN_ANGLE) {
             camera_angle -= CAMERA_ANGLE_STEP;
         }
+    }
+
+    if (rPressed) {
+        camera_x = CAMERAX;
+        camera_y = CAMERAY;
+        camera_z = CAMERAZ;
+        camera_elevation = CAMERAELEVATION;
+        camera_angle = CAMERAANGLE;
     }
 
 }

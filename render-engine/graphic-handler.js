@@ -11,6 +11,7 @@ let camera_elevation = CAMERA_ELEVATION;
 let camera_angle = CAMERA_ANGLE;
 
 var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
+var ambientLightInfluence = 0.0;
 
 function main() {
 
@@ -29,7 +30,7 @@ function draw() {
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
-    graphRoot.localMatrix = utils.multiplyMatrices(animate(0.1), graphRoot.localMatrix);
+    //graphRoot.localMatrix = utils.multiplyMatrices(animate(0.1), graphRoot.localMatrix);
     graphRoot.updateWorldMatrix();
     graph.forEach(function (node) {
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
@@ -41,6 +42,7 @@ function draw() {
             ambientLightColor[1],
             ambientLightColor[2],
             ambientLightColor[3]);
+        gl.uniform1f(glslLocations.ambientLightInfluence, ambientLightInfluence);
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -145,4 +147,8 @@ function updateAmbientLightColor(val) {
     ambientLightColor[1] = parseInt(val.substring(2,4), 16) / 255;
     ambientLightColor[2] = parseInt(val.substring(4,6), 16) / 255;
     ambientLightColor[3] = 1.0;
+}
+
+function updateAmbientLightInfluence(val) {
+    ambientLightInfluence = val;
 }

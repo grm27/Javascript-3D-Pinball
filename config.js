@@ -87,6 +87,12 @@ const localMatrices = [
 ];
 
 //Camera constants
+const CAMERA_X = 0.0;
+const CAMERA_Y = 13.0;
+const CAMERA_Z = -7.3;
+const CAMERA_ELEVATION = -40.0;
+const CAMERA_ANGLE = 180.0;
+
 const CAM_MAX_X = 10.0;
 const CAM_MAX_Y = 15.0;
 const CAM_MIN_X = -10.0;
@@ -97,5 +103,24 @@ const CAM_MIN_ELEVATION = -90.0;
 const CAM_MIN_ANGLE = -90.0;
 const CAMERA_STEP = 0.1;
 const CAMERA_ANGLE_STEP = 1.0;
+
+
+//TABLE MOVEMENTS CONSTANTS
+const TABLE_MAX_X = 10.0;
+const TABLE_MAX_Y = 15.0;
+const TABLE_MIN_X = -10.0;
+const TABLE_MIN_Y = -10.0;
+const TABLE_MAX_ELEVATION = 90.0;
+const TABLE_MAX_ANGLE = 90.0;
+const TABLE_MIN_ELEVATION = -90.0;
+const TABLE_MIN_ANGLE = -90.0;
+const TABLE_STEP = 0.1;
+const TABLE_ANGLE_STEP = 1.0;
+
+
+//OBJECT CONSTANTS
+const OBJECT_X = 3;
+const OBJECT_Y = 7;
+const OBJECT_Z = 11;
 
 

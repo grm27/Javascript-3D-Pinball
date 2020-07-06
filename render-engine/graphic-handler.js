@@ -1,9 +1,3 @@
-const CAMERA_X = 0.0;
-const CAMERA_Y = 13.0;
-const CAMERA_Z = -7.3;
-const CAMERA_ELEVATION = -40.0;
-const CAMERA_ANGLE = 180.0;
-
 let camera_x = CAMERA_X;
 let camera_y = CAMERA_Y;
 let camera_z = CAMERA_Z;
@@ -25,7 +19,11 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     //update view matrix intercepting keyboard events
+    resetPositions();
+
     updateViewMatrix();
+
+    updateWorldMatrix();
 
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
@@ -131,17 +129,67 @@ function updateViewMatrix() {
         }
     }
 
+}
+
+function updateWorldMatrix(){
+
+    let tableX = graphRoot.worldMatrix[OBJECT_X];
+    let tableY = graphRoot.worldMatrix[OBJECT_Y];
+    let updated = false;
+
+    if (wPressed) {
+        if ((tableY + TABLE_STEP) < TABLE_MAX_Y) {
+            graphRoot.localMatrix[OBJECT_Y] += TABLE_STEP;
+            updated = true;
+        }
+    }
+
+    if (sPressed) {
+        if ((tableY - TABLE_STEP) > TABLE_MIN_Y) {
+            graphRoot.localMatrix[OBJECT_Y] -= TABLE_STEP;
+            updated = true;
+        }
+    }
+
+    if (dPressed) {
+        if ((tableX + TABLE_STEP) < TABLE_MAX_X) {
+            graphRoot.localMatrix[OBJECT_X] += TABLE_STEP;
+            updated = true;
+        }
+    }
+
+    if (aPressed) {
+        if ((tableX - TABLE_STEP)  > TABLE_MIN_X) {
+            graphRoot.localMatrix[OBJECT_X] -= TABLE_STEP;
+            updated = true;
+        }
+    }
+
+    if(updated)
+        graphRoot.updateWorldMatrix();
+}
+
+function resetPositions(){
+
     if (rPressed) {
         camera_x = CAMERA_X;
         camera_y = CAMERA_Y;
         camera_z = CAMERA_Z;
         camera_elevation = CAMERA_ELEVATION;
         camera_angle = CAMERA_ANGLE;
-    }
 
+        graphRoot.localMatrix[OBJECT_X] = 0;
+        graphRoot.localMatrix[OBJECT_Y] = 0;
+    }
+}
+
+function updateNodeMatrix(i, transformationMatrix){
+
+    graph[i].localMatrix = utils.multiplyMatrices(transformationMatrix, graph[i].localMatrix);
 }
 
 function updateAmbientLightColor(val) {
+
     val = val.replace('#','');
     ambientLightColor[0] = parseInt(val.substring(0,2), 16) / 255;
     ambientLightColor[1] = parseInt(val.substring(2,4), 16) / 255;

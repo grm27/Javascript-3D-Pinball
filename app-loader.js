@@ -244,33 +244,33 @@ function loadGlslProperties() {
 function bindModelProperties() {
 
     graph.forEach(function (node) {
-        node.drawInfo.vao = gl.createVertexArray();
 
+        node.drawInfo.vao = gl.createVertexArray();
         gl.bindVertexArray(node.drawInfo.vao);
 
-        let positionBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.vertices), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(glslLocations.positionAttributeLocation);
-        gl.vertexAttribPointer(glslLocations.positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+        //vertexes
+        bindBuffer(glslLocations.positionAttributeLocation, node.drawInfo.vertices, 3);
 
-        let normalBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.normals), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(glslLocations.normalsAttribLocation);
-        gl.vertexAttribPointer(glslLocations.normalsAttribLocation, 3, gl.FLOAT, false, 0, 0);
+        //normals
+        bindBuffer(glslLocations.normalsAttribLocation, node.drawInfo.normals, 3);
 
-        let uvBuffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.texCords), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(glslLocations.uvAttributeLocation);
-        gl.vertexAttribPointer(glslLocations.uvAttributeLocation, 2, gl.FLOAT, false, 0, 0);
+        //uv texture
+        bindBuffer(glslLocations.uvAttributeLocation, node.drawInfo.texCords, 2);
 
         let indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
         gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(node.drawInfo.indices), gl.STATIC_DRAW);
     });
 
+}
+
+function bindBuffer(glslLocation, array, size) {
+
+    let buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(array), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(glslLocation);
+    gl.vertexAttribPointer(glslLocation, size, gl.FLOAT, false, 0, 0);
 }
 
 window.onload = init;
@@ -295,8 +295,11 @@ window.addEventListener("keyup", jUp, false);
 window.addEventListener("keyup", hUp, false);
 window.addEventListener("keyup", kUp, false);
 
-window.addEventListener("keydown", paletteUPMovement, false);
-window.addEventListener("keyup", paletteDOWNMovement, false);
-window.addEventListener("keydown", resetBall, false);
-window.addEventListener("keydown", reloaderUPMovement, false);
-window.addEventListener("keyup", reloaderDOWNMovement, false);
+window.addEventListener("keydown", wasdPressed, false);
+window.addEventListener("keyup", wasdReleased, false);
+
+//window.addEventListener("keydown", paletteUPMovement, false);
+//window.addEventListener("keyup", paletteDOWNMovement, false);
+//window.addEventListener("keydown", resetBall, false);
+//window.addEventListener("keydown", reloaderUPMovement, false);
+//window.addEventListener("keyup", reloaderDOWNMovement, false);

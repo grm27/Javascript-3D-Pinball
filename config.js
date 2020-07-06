@@ -63,7 +63,7 @@ const modelSources = [
 const localMatrices = [
     utils.MakeWorld(-0.30053, 8.5335, -5.9728, 0.0, 0.0, 0.0, 1.0),
     //TODO set right world matrix for BODY
-    utils.MakeWorld(3.0, 0.0, 0.5, 0.0, 0.0, 0.0, 7.0),
+    utils.MakeWorld(0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0),
     utils.MakeWorld(1.1819, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
     utils.MakeWorld(-1.5055, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
     utils.MakeWorld(-0.11626, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
@@ -87,14 +87,21 @@ const localMatrices = [
 ];
 
 //Camera constants
-const CAM_MAX_X = 5.0;
-const CAM_MAX_Y = 5.0;
-const CAM_MIN_X = -5.0;
-const CAM_MIN_Y = -5.0;
+const CAM_MAX_X = 10.0;
+const CAM_MAX_Y = 15.0;
+const CAM_MIN_X = -10.0;
+const CAM_MIN_Y = -10.0;
 const CAM_MAX_ELEVATION = 90.0;
 const CAM_MAX_ANGLE = 90.0;
 const CAM_MIN_ELEVATION = -90.0;
 const CAM_MIN_ANGLE = -90.0;
-const CAMERA_STEP = 0.02;
+const CAMERA_STEP = 0.1;
 const CAMERA_ANGLE_STEP = 1.0;
+
+
+var viewX = 0;
+var viewY = 15;
+var viewZ = -7.3;
+var viewPhi = -54;
+var viewTheta = 180;
 

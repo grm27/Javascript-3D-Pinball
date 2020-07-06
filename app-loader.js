@@ -1,10 +1,10 @@
-let program;
-let gl;
-let modelList = [];
-let graph;
-let graphRoot;
-let glslProperties;
-let texture;
+var program;
+var gl;
+var meshes = [];
+var graph;
+var graphRoot;
+var glslLocations;
+var texture;
 
 async function init() {
 
@@ -14,7 +14,6 @@ async function init() {
         document.write("GL context not opened");
         return;
     }
-    initGlContext();
 
     await utils.loadFiles([SHADER_DIR + 'vs.glsl', SHADER_DIR + 'fs.glsl'], function (shaderText) {
         let vertexShader = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
@@ -22,24 +21,25 @@ async function init() {
         program = utils.createProgram(gl, vertexShader, fragmentShader);
     });
     gl.useProgram(program);
+    initGlContext();
 
     //This loads the obj models
     for (let i = 0; i < modelSources.length; i++) {
         let objStr = await utils.get_objstr(modelSources[i]);
-        modelList.push(new OBJ.Mesh(objStr));
+        meshes.push(new OBJ.Mesh(objStr));
     }
 
     //Building the graph of the scene...
     buildSceneGraph();
 
     //load glsl properties
-    glslProperties = loadGlslProperties();
-
-    //bind glsl properties
-    bindModelProperties();
+    glslLocations = loadGlslProperties();
 
     //load textures
     loadTextures();
+
+    //bind glsl properties
+    bindModelProperties();
 
     //call the main rendering function
     main();
@@ -57,91 +57,113 @@ function initGlContext() {
 function buildSceneGraph() {
 
     //define local matrices of each node
-    let bodyNode = new Node();
+    let bodyNode = new SceneNode();
+    bodyNode.name = "body";
     bodyNode.drawInfo = loadModelProperties(objectIndex.BODY);
     bodyNode.localMatrix = localMatrices[objectIndex.BODY];
 
-    let ballNode = new Node();
+    let ballNode = new SceneNode();
+    ballNode.name = "ballNode";
     ballNode.drawInfo = loadModelProperties(objectIndex.BALL)
     ballNode.localMatrix = localMatrices[objectIndex.BALL];
 
-    let dl1Node = new Node();
+    let dl1Node = new SceneNode();
+    dl1Node.name = "dl1Node";
     dl1Node.drawInfo = loadModelProperties(objectIndex.DL1)
     dl1Node.localMatrix = localMatrices[objectIndex.DL1];
 
-    let dl2Node = new Node();
+    let dl2Node = new SceneNode();
+    dl2Node.name = "dl2Node";
     dl2Node.drawInfo = loadModelProperties(objectIndex.DL2)
     dl2Node.localMatrix = localMatrices[objectIndex.DL2];
 
-    let dl3Node = new Node();
+    let dl3Node = new SceneNode();
+    dl3Node.name = "dl3Node";
     dl3Node.drawInfo = loadModelProperties(objectIndex.DL3)
     dl3Node.localMatrix = localMatrices[objectIndex.DL3];
 
-    let dl4Node = new Node();
+    let dl4Node = new SceneNode();
+    dl4Node.name = "dl4Node";
     dl4Node.drawInfo = loadModelProperties(objectIndex.DL4)
     dl4Node.localMatrix = localMatrices[objectIndex.DL4];
 
-    let dl5Node = new Node();
+    let dl5Node = new SceneNode();
+    dl5Node.name = "dl5Node";
     dl5Node.drawInfo = loadModelProperties(objectIndex.DL5)
     dl5Node.localMatrix = localMatrices[objectIndex.DL5];
 
-    let dl6Node = new Node();
+    let dl6Node = new SceneNode();
+    dl6Node.name = "dl6Node";
     dl6Node.drawInfo = loadModelProperties(objectIndex.DL6)
     dl6Node.localMatrix = localMatrices[objectIndex.DL6];
 
-    let dr1Node = new Node();
+    let dr1Node = new SceneNode();
+    dr1Node.name = "dr1Node";
     dr1Node.drawInfo = loadModelProperties(objectIndex.DR1)
     dr1Node.localMatrix = localMatrices[objectIndex.DR1];
 
-    let dr2Node = new Node();
+    let dr2Node = new SceneNode();
+    dr2Node.name = "dr2Node";
     dr2Node.drawInfo = loadModelProperties(objectIndex.DR2)
     dr2Node.localMatrix = localMatrices[objectIndex.DR2];
 
-    let dr3Node = new Node();
+    let dr3Node = new SceneNode();
+    dr3Node.name = "dr3Node";
     dr3Node.drawInfo = loadModelProperties(objectIndex.DR3)
     dr3Node.localMatrix = localMatrices[objectIndex.DR3];
 
-    let dr4Node = new Node();
+    let dr4Node = new SceneNode();
+    dr4Node.name = "dr4Node";
     dr4Node.drawInfo = loadModelProperties(objectIndex.DR4)
     dr4Node.localMatrix = localMatrices[objectIndex.DR4];
 
-    let dr5Node = new Node();
+    let dr5Node = new SceneNode();
+    dr5Node.name = "dr5Node";
     dr5Node.drawInfo = loadModelProperties(objectIndex.DR5)
     dr5Node.localMatrix = localMatrices[objectIndex.DR5];
 
-    let dr6Node = new Node();
+    let dr6Node = new SceneNode();
+    dr6Node.name = "dr6Node";
     dr6Node.drawInfo = loadModelProperties(objectIndex.DR6)
     dr6Node.localMatrix = localMatrices[objectIndex.DR6];
 
-    let leftFlipperNode = new Node();
+    let leftFlipperNode = new SceneNode();
+    leftFlipperNode.name = "leftFlipperNode";
     leftFlipperNode.drawInfo = loadModelProperties(objectIndex.LEFT_FLIPPER)
     leftFlipperNode.localMatrix = localMatrices[objectIndex.LEFT_FLIPPER];
 
-    let rightFlipperNode = new Node();
+    let rightFlipperNode = new SceneNode();
+    rightFlipperNode.name = "rightFlipperNode";
     rightFlipperNode.drawInfo = loadModelProperties(objectIndex.RIGHT_FLIPPER)
     rightFlipperNode.localMatrix = localMatrices[objectIndex.RIGHT_FLIPPER];
 
-    let leftButtonNode = new Node();
+    let leftButtonNode = new SceneNode();
+    leftButtonNode.name = "leftButtonNode";
     leftButtonNode.drawInfo = loadModelProperties(objectIndex.LEFT_BUTTON)
     leftButtonNode.localMatrix = localMatrices[objectIndex.LEFT_BUTTON];
 
-    let rightButtonNode = new Node();
+    let rightButtonNode = new SceneNode();
+    rightButtonNode.name = "rightButtonNode";
     rightButtonNode.drawInfo = loadModelProperties(objectIndex.RIGHT_BUTTON)
     rightButtonNode.localMatrix = localMatrices[objectIndex.RIGHT_BUTTON];
 
-    let pullerNode = new Node();
+    let pullerNode = new SceneNode();
+    pullerNode.name = "pullerNode";
     pullerNode.drawInfo = loadModelProperties(objectIndex.PULLER)
     pullerNode.localMatrix = localMatrices[objectIndex.PULLER];
 
-    let bumper1Node = new Node();
+    let bumper1Node = new SceneNode();
+    bumper1Node.name = "bumper1Node";
     bumper1Node.drawInfo = loadModelProperties(objectIndex.BUMPER1)
     bumper1Node.localMatrix = localMatrices[objectIndex.BUMPER1];
 
-    let bumper2Node = new Node();
+    let bumper2Node = new SceneNode();
+    bumper2Node.name = "bumper2Node";
     bumper2Node.drawInfo = loadModelProperties(objectIndex.BUMPER2)
     bumper2Node.localMatrix = localMatrices[objectIndex.BUMPER2];
 
-    let bumper3Node = new Node();
+    let bumper3Node = new SceneNode();
+    bumper3Node.name = "bumper3Node";
     bumper3Node.drawInfo = loadModelProperties(objectIndex.BUMPER3)
     bumper3Node.localMatrix = localMatrices[objectIndex.BUMPER3];
 
@@ -171,11 +193,9 @@ function buildSceneGraph() {
     ];
 
     //define relationships
-    for (let i = 0; i < graph.length; i++)
-        if (i !== 1)
-            graph[i].setParent(bodyNode);
-
-    bodyNode.updateWorldMatrix();
+    graph.forEach(function (node) {
+        node.updateWorldMatrix();
+    });
     graphRoot = bodyNode;
 }
 
@@ -184,10 +204,10 @@ function loadModelProperties(index) {
 
     //Here we extract the position of the vertices, the normals, the indices, and the uv coordinates
     return {
-        vertices: modelList[index].vertices,
-        normals: modelList[index].vertexNormals,
-        indices: modelList[index].indices,
-        texCords: modelList[index].textures
+        vertices: meshes[index].vertices,
+        normals: meshes[index].vertexNormals,
+        indices: meshes[index].indices,
+        texCords: meshes[index].textures
     }
 }
 
@@ -211,6 +231,7 @@ function loadGlslProperties() {
 
     return {
         positionAttributeLocation: gl.getAttribLocation(program, "a_position"),
+        normalsAttribLocation: gl.getAttribLocation(program, "inNormal"),
         uvAttributeLocation: gl.getAttribLocation(program, "a_uv"),
         matrixLocation: gl.getUniformLocation(program, "matrix"),
         textLocation: gl.getUniformLocation(program, "u_texture")
@@ -227,22 +248,20 @@ function bindModelProperties() {
         let positionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.vertices), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(glslProperties.positionAttributeLocation);
-        gl.vertexAttribPointer(glslProperties.positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(glslLocations.positionAttributeLocation);
+        gl.vertexAttribPointer(glslLocations.positionAttributeLocation, 3, gl.FLOAT, false, 0, 0);
 
-        //TODO set normals in shaders
-        //    let normalBuffer = gl.createBuffer();
-        //   gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
-        //   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.normals), gl.STATIC_DRAW);
-        //  gl.enableVertexAttribArray(normalAttributeLocation[i]);
-        //  gl.vertexAttribPointer(normalAttributeLocation[i], 3, gl.FLOAT, false, 0, 0);
+        let normalBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.normals), gl.STATIC_DRAW);
+        gl.enableVertexAttribArray(glslLocations.normalsAttribLocation);
+        gl.vertexAttribPointer(glslLocations.normalsAttribLocation, 3, gl.FLOAT, false, 0, 0);
 
         let uvBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(node.drawInfo.texCords), gl.STATIC_DRAW);
-        gl.enableVertexAttribArray(glslProperties.textLocation);
-        gl.vertexAttribPointer(glslProperties.textLocation, 2, gl.FLOAT, false, 0, 0);
-
+        gl.enableVertexAttribArray(glslLocations.uvAttributeLocation);
+        gl.vertexAttribPointer(glslLocations.uvAttributeLocation, 2, gl.FLOAT, false, 0, 0);
 
         let indexBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -269,9 +288,9 @@ window.addEventListener("keydown", hDown, false);
 window.addEventListener("keydown", kDown, false);
 
 window.addEventListener("keyup", uUp, false);
-window.addEventListener("keyup", jUp,  false);
-window.addEventListener("keyup", hUp,  false);
-window.addEventListener("keyup", kUp,  false);
+window.addEventListener("keyup", jUp, false);
+window.addEventListener("keyup", hUp, false);
+window.addEventListener("keyup", kUp, false);
 
 window.addEventListener("keydown", paletteUPMovement, false);
 window.addEventListener("keyup", paletteDOWNMovement, false);

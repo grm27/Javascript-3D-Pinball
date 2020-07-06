@@ -2,6 +2,7 @@
 
 in vec3 a_position;
 in vec2 a_uv;
+in vec3 inNormal;
 out vec2 uvFS;
 
 uniform mat4 matrix; 

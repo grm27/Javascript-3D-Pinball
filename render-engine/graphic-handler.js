@@ -1,8 +1,8 @@
 let camera_x = 0.0;
-let camera_y = 0.0;
-let camera_z = 3.0;
-let camera_elevation = 0.0;
-let camera_angle = 0.5;
+let camera_y = 15.0;
+let camera_z = -7.3;
+let camera_elevation = -45.0;
+let camera_angle = 180.0;
 
 function main() {
 
@@ -12,7 +12,7 @@ function main() {
 function draw() {
 
     // utils.resizeCanvasToDisplaySize(gl.canvas);
-    gl.clearColor(0.85, 0.85, 0.85, 1.0);
+    gl.clearColor(0.0, 0.0, 0.0, 0.3);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
     //update view matrix intercepting keyboard events
@@ -21,22 +21,45 @@ function draw() {
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
-    console.log(viewMatrix);
     graph.forEach(function (node) {
-        gl.useProgram(program);
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
-        gl.uniformMatrix4fv(glslProperties.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+        gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
 
         gl.activeTexture(gl.TEXTURE0);
-        gl.uniform1i(glslProperties.textLocation, texture);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.uniform1i(glslLocations.textLocation, texture);
 
         gl.bindVertexArray(node.drawInfo.vao);
         gl.drawElements(gl.TRIANGLES, node.drawInfo.indices.length, gl.UNSIGNED_SHORT, 0);
     });
 
     window.requestAnimationFrame(draw);
+}
+
+let aX = 0.0;
+let aY = 0.0;
+let aZ = 0.0;
+
+let deltaX = 0.0;
+let deltaY = 0.0;
+let deltaZ = 0.0;
+
+let velocityX = -20.0;
+let velocityY = 0.0;
+let velocityZ = 0.0;
+
+function animate(deltaT){
+    velocityX += getDeltaV(deltaT, aX);
+    velocityY += getDeltaV(deltaT, aY);
+    velocityZ += getDeltaV(deltaT, aZ);
+
+    deltaX = getDeltaS(deltaT, aX, velocityX);
+    deltaY = getDeltaS(deltaT, aY, velocityY);
+    deltaZ = getDeltaS(deltaT, aZ, velocityZ);
+
+    return utils.MakeTranslateMatrix(deltaX, deltaY, deltaZ);
 }
 
 function updateViewMatrix() {

@@ -120,11 +120,11 @@ function updateViewMatrix() {
     }
 
     if (rPressed) {
-        camera_x = CAMERAX;
-        camera_y = CAMERAY;
-        camera_z = CAMERAZ;
-        camera_elevation = CAMERAELEVATION;
-        camera_angle = CAMERAANGLE;
+        camera_x = CAMERA_X;
+        camera_y = CAMERA_Y;
+        camera_z = CAMERA_Z;
+        camera_elevation = CAMERA_ELEVATION;
+        camera_angle = CAMERA_ANGLE;
     }
 
 }

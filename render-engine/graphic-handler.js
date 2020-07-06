@@ -1,7 +1,7 @@
 let camera_x = 0.0;
-let camera_y = 15.0;
+let camera_y = 13.0;
 let camera_z = -7.3;
-let camera_elevation = -45.0;
+let camera_elevation = -40.0;
 let camera_angle = 180.0;
 
 function main() {
@@ -64,13 +64,13 @@ function animate(deltaT){
 
 function updateViewMatrix() {
 
-    if (upArrowPressed) {
+    if (downArrowPressed) {
         if ((camera_y + CAMERA_STEP) < CAM_MAX_Y) {
             camera_y += CAMERA_STEP;
         }
     }
 
-    if (downArrowPressed) {
+    if (upArrowPressed) {
         if ((camera_y - CAMERA_STEP) > CAM_MIN_Y) {
             camera_y -= CAMERA_STEP;
         }

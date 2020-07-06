@@ -1,10 +1,10 @@
-var program;
-var gl;
-var meshes = [];
-var graph;
-var graphRoot;
-var glslLocations;
-var texture;
+let program;
+let gl;
+let meshes = [];
+let graph;
+let graphRoot;
+let glslLocations;
+let texture;
 
 async function init() {
 

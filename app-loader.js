@@ -194,8 +194,10 @@ function buildSceneGraph() {
 
     //define relationships
     graph.forEach(function (node) {
-        node.updateWorldMatrix();
+        if (node.name !== "body")
+            node.setParent(bodyNode);
     });
+    bodyNode.updateWorldMatrix();
     graphRoot = bodyNode;
 }
 

@@ -27,6 +27,8 @@ function draw() {
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
+    graphRoot.localMatrix = utils.multiplyMatrices(animate(0.1), graphRoot.localMatrix);
+    graphRoot.updateWorldMatrix();
     graph.forEach(function (node) {
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
@@ -44,7 +46,7 @@ function draw() {
     window.requestAnimationFrame(draw);
 }
 
-let aX = 0.0;
+let aX = -0.001;
 let aY = 0.0;
 let aZ = 0.0;
 
@@ -52,7 +54,7 @@ let deltaX = 0.0;
 let deltaY = 0.0;
 let deltaZ = 0.0;
 
-let velocityX = -20.0;
+let velocityX = -0.1;
 let velocityY = 0.0;
 let velocityZ = 0.0;
 
@@ -61,10 +63,11 @@ function animate(deltaT){
     velocityY += getDeltaV(deltaT, aY);
     velocityZ += getDeltaV(deltaT, aZ);
 
+    console.log(velocityX);
     deltaX = getDeltaS(deltaT, aX, velocityX);
     deltaY = getDeltaS(deltaT, aY, velocityY);
     deltaZ = getDeltaS(deltaT, aZ, velocityZ);
-
+    console.log(velocityX);
     return utils.MakeTranslateMatrix(deltaX, deltaY, deltaZ);
 }
 

@@ -34,7 +34,6 @@ async function init() {
 
     //load glsl properties
     glslLocations = loadGlslProperties();
-
     //load textures
     loadTextures();
 
@@ -236,7 +235,8 @@ function loadGlslProperties() {
         normalsAttribLocation: gl.getAttribLocation(program, "inNormal"),
         uvAttributeLocation: gl.getAttribLocation(program, "a_uv"),
         matrixLocation: gl.getUniformLocation(program, "matrix"),
-        textLocation: gl.getUniformLocation(program, "u_texture")
+        textLocation: gl.getUniformLocation(program, "u_texture"),
+        ambientLocation: gl.getUniformLocation(program, 'ambientLightColor')
     }
 }
 

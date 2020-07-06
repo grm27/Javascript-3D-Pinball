@@ -53,7 +53,7 @@ function draw() {
     window.requestAnimationFrame(draw);
 }
 
-let aX = -0.001;
+let aX = -0.2;
 let aY = 0.0;
 let aZ = 0.0;
 
@@ -70,11 +70,11 @@ function animate(deltaT){
     velocityY += getDeltaV(deltaT, aY);
     velocityZ += getDeltaV(deltaT, aZ);
 
-    console.log(velocityX);
-    deltaX = getDeltaS(deltaT, aX, velocityX);
+    console.log("VEL" + velocityX);
+    deltaX = getDeltaS(deltaT, aX, velocityX)/10;
     deltaY = getDeltaS(deltaT, aY, velocityY);
     deltaZ = getDeltaS(deltaT, aZ, velocityZ);
-    console.log(velocityX);
+    console.log("DELTA " + deltaX);
     return utils.MakeTranslateMatrix(deltaX, deltaY, deltaZ);
 }
 

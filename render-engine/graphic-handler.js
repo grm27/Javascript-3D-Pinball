@@ -10,6 +10,8 @@ let camera_z = CAMERA_Z;
 let camera_elevation = CAMERA_ELEVATION;
 let camera_angle = CAMERA_ANGLE;
 
+var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
+
 function main() {
 
     draw();
@@ -32,6 +34,11 @@ function draw() {
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
         gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+
+        gl.uniform4f(glslLocations.ambientLocation, ambientLightColor[0],
+            ambientLightColor[1],
+            ambientLightColor[2],
+            ambientLightColor[3]);
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -127,4 +134,12 @@ function updateViewMatrix() {
         camera_angle = CAMERA_ANGLE;
     }
 
+}
+
+function updateAmbientLightColor(val) {
+    val = val.replace('#','');
+    ambientLightColor[0] = parseInt(val.substring(0,2), 16) / 255;
+    ambientLightColor[1] = parseInt(val.substring(2,4), 16) / 255;
+    ambientLightColor[2] = parseInt(val.substring(4,6), 16) / 255;
+    ambientLightColor[3] = 1.0;
 }

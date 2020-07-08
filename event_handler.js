@@ -182,6 +182,9 @@ let wPressed = false;
 let aPressed = false;
 let sPressed = false;
 let dPressed = false;
+let qPressed = false;
+let ePressed = false;
+let barPressed = true;
 
 function wasdPressed(e){
 
@@ -193,6 +196,10 @@ function wasdPressed(e){
         sPressed = true;
     if(e.key === "d")
         dPressed = true;
+    if(e.key === "q")
+        qPressed = true;
+    if(e.key === "e")
+        ePressed = true;
 }
 
 function wasdReleased(e){
@@ -205,6 +212,10 @@ function wasdReleased(e){
         sPressed = false;
     if(e.key === "d")
         dPressed = false;
+    if(e.key === "q")
+        qPressed = false;
+    if(e.key === "e")
+        ePressed = false;
 }
 
 

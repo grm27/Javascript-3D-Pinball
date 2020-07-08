@@ -4,15 +4,17 @@ let camera_z = CAMERA_Z;
 let camera_elevation = CAMERA_ELEVATION;
 let camera_angle = CAMERA_ANGLE;
 
-var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
-var ambientLightInfluence = 0.0;
+let ambientLightColor = [0.0, 0.0, 0.0, 1.0];
+let ambientLightInfluence = 0.0;
 
 function main() {
-
+    initWorld();
     draw();
 }
 
 function draw() {
+
+    world.step();
 
     // utils.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(0.0, 0.0, 0.0, 0.3);
@@ -28,7 +30,6 @@ function draw() {
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
-    //graphRoot.localMatrix = utils.multiplyMatrices(animate(0.1), graphRoot.localMatrix);
     graphRoot.updateWorldMatrix();
     graph.forEach(function (node) {
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
@@ -53,56 +54,7 @@ function draw() {
     window.requestAnimationFrame(draw);
 }
 
-let aX = -0.2;
-let aY = 0.0;
-let aZ = 0.0;
-
-let deltaX = 0.0;
-let deltaY = 0.0;
-let deltaZ = 0.0;
-
-let velocityX = -0.1;
-let velocityY = 0.0;
-let velocityZ = 0.0;
-
-function animate(deltaT){
-    velocityX += getDeltaV(deltaT, aX);
-    velocityY += getDeltaV(deltaT, aY);
-    velocityZ += getDeltaV(deltaT, aZ);
-
-    console.log("VEL" + velocityX);
-    deltaX = getDeltaS(deltaT, aX, velocityX)/10;
-    deltaY = getDeltaS(deltaT, aY, velocityY);
-    deltaZ = getDeltaS(deltaT, aZ, velocityZ);
-    console.log("DELTA " + deltaX);
-    return utils.MakeTranslateMatrix(deltaX, deltaY, deltaZ);
-}
-
 function updateViewMatrix() {
-
-    if (downArrowPressed) {
-        if ((camera_y + CAMERA_STEP) < CAM_MAX_Y) {
-            camera_y += CAMERA_STEP;
-        }
-    }
-
-    if (upArrowPressed) {
-        if ((camera_y - CAMERA_STEP) > CAM_MIN_Y) {
-            camera_y -= CAMERA_STEP;
-        }
-    }
-
-    if (rightArrowPressed) {
-        if ((camera_x + CAMERA_STEP) < CAM_MAX_X) {
-            camera_x += CAMERA_STEP;
-        }
-    }
-
-    if (leftArrowPressed) {
-        if ((camera_x - CAMERA_STEP) > CAM_MIN_X) {
-            camera_x -= CAMERA_STEP;
-        }
-    }
 
 
     if (uPressed) {
@@ -131,45 +83,64 @@ function updateViewMatrix() {
 
 }
 
-function updateWorldMatrix(){
+function updateWorldMatrix() {
+
+    let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
+
+    //from collision space to world space
+    ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(-0.30053, 8.5335, -5.9728, 45.0, 0.0, 0.0, 2.0), ballPosition);
+    graph[objectIndex.BALL].localMatrix[OBJECT_X] = ballPosition[0];
+    graph[objectIndex.BALL].localMatrix[OBJECT_Y] = ballPosition[1];
+    graph[objectIndex.BALL].localMatrix[OBJECT_Z] = ballPosition[2];
+
+    checkTableMovements();
+}
+
+function checkTableMovements() {
 
     let tableX = graphRoot.worldMatrix[OBJECT_X];
     let tableY = graphRoot.worldMatrix[OBJECT_Y];
-    let updated = false;
+    let tableZ = graphRoot.worldMatrix[OBJECT_Z];
 
     if (wPressed) {
         if ((tableY + TABLE_STEP) < TABLE_MAX_Y) {
             graphRoot.localMatrix[OBJECT_Y] += TABLE_STEP;
-            updated = true;
         }
     }
 
     if (sPressed) {
         if ((tableY - TABLE_STEP) > TABLE_MIN_Y) {
             graphRoot.localMatrix[OBJECT_Y] -= TABLE_STEP;
-            updated = true;
         }
     }
 
     if (dPressed) {
         if ((tableX + TABLE_STEP) < TABLE_MAX_X) {
             graphRoot.localMatrix[OBJECT_X] += TABLE_STEP;
-            updated = true;
         }
     }
 
     if (aPressed) {
-        if ((tableX - TABLE_STEP)  > TABLE_MIN_X) {
+        if ((tableX - TABLE_STEP) > TABLE_MIN_X) {
             graphRoot.localMatrix[OBJECT_X] -= TABLE_STEP;
-            updated = true;
         }
     }
 
-    if(updated)
-        graphRoot.updateWorldMatrix();
+    if (qPressed) {
+        if ((tableZ + TABLE_STEP) < TABLE_MAX_Z) {
+            graphRoot.localMatrix[OBJECT_Z] += TABLE_STEP;
+        }
+    }
+
+    if (ePressed) {
+        if ((tableZ - TABLE_STEP) > TABLE_MIN_Z) {
+            graphRoot.localMatrix[OBJECT_Z] -= TABLE_STEP;
+        }
+    }
+
 }
 
-function resetPositions(){
+function resetPositions() {
 
     if (rPressed) {
         camera_x = CAMERA_X;
@@ -178,25 +149,27 @@ function resetPositions(){
         camera_elevation = CAMERA_ELEVATION;
         camera_angle = CAMERA_ANGLE;
 
-        graphRoot.localMatrix[OBJECT_X] = 0;
-        graphRoot.localMatrix[OBJECT_Y] = 0;
+        graphRoot.localMatrix[OBJECT_X] = TABLE_X;
+        graphRoot.localMatrix[OBJECT_Y] = TABLE_Y;
+        graphRoot.localMatrix[OBJECT_Z] = TABLE_Z;
     }
 }
 
-function updateNodeMatrix(i, transformationMatrix){
+function updateNodeMatrix(i, transformationMatrix) {
 
     graph[i].localMatrix = utils.multiplyMatrices(transformationMatrix, graph[i].localMatrix);
 }
 
 function updateAmbientLightColor(val) {
 
-    val = val.replace('#','');
-    ambientLightColor[0] = parseInt(val.substring(0,2), 16) / 255;
-    ambientLightColor[1] = parseInt(val.substring(2,4), 16) / 255;
-    ambientLightColor[2] = parseInt(val.substring(4,6), 16) / 255;
+    val = val.replace('#', '');
+    ambientLightColor[0] = parseInt(val.substring(0, 2), 16) / 255;
+    ambientLightColor[1] = parseInt(val.substring(2, 4), 16) / 255;
+    ambientLightColor[2] = parseInt(val.substring(4, 6), 16) / 255;
     ambientLightColor[3] = 1.0;
 }
 
 function updateAmbientLightInfluence(val) {
+
     ambientLightInfluence = val;
 }

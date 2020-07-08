@@ -46,7 +46,7 @@ async function init() {
 
 function initGlContext() {
 
-    // utils.resizeCanvasToDisplaySize(gl.canvas);
+    utils.resizeCanvasToDisplaySize(gl.canvas);
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
     gl.clearColor(0.85, 1.0, 0.85, 1.0);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -60,6 +60,7 @@ function buildSceneGraph() {
     bodyNode.name = "body";
     bodyNode.drawInfo = loadModelProperties(objectIndex.BODY);
     bodyNode.localMatrix = localMatrices[objectIndex.BODY];
+    bodyNode.localMatrix[10] = -bodyNode.localMatrix[10];
 
     let ballNode = new SceneNode();
     ballNode.name = "ballNode";

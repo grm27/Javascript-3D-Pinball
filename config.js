@@ -7,6 +7,50 @@ const ASSETS_OBJECT_DIR = "assets/objects/";
 const ASSETS_TEXTURE_DIR = "assets/StarWarsPinball.png";
 
 
+//Camera constants
+const CAMERA_X = 0.0;
+const CAMERA_Y = 0.0;
+const CAMERA_Z = 0.0;
+const CAMERA_ELEVATION = 0.0;
+const CAMERA_ANGLE = 0.0;
+
+const CAM_MAX_X = 10.0;
+const CAM_MAX_Y = 15.0;
+const CAM_MIN_X = -10.0;
+const CAM_MIN_Y = -10.0;
+const CAM_MAX_ELEVATION = 90.0;
+const CAM_MAX_ANGLE = 90.0;
+const CAM_MIN_ELEVATION = -90.0;
+const CAM_MIN_ANGLE = -90.0;
+const CAMERA_STEP = 0.1;
+const CAMERA_ANGLE_STEP = 1.0;
+
+
+//TABLE MOVEMENTS CONSTANTS
+const TABLE_MAX_X = 100.0;
+const TABLE_MAX_Y = 100.0;
+const TABLE_MAX_Z = 100.0;
+const TABLE_MIN_X = -100.0;
+const TABLE_MIN_Y = -100.0;
+const TABLE_MIN_Z = -100.0;
+
+const TABLE_X = 0.0;
+const TABLE_Y = -12.0;
+const TABLE_Z = -12.0;
+const TABLE_MAX_ELEVATION = 90.0;
+const TABLE_MAX_ANGLE = 90.0;
+const TABLE_MIN_ELEVATION = -90.0;
+const TABLE_MIN_ANGLE = -90.0;
+const TABLE_STEP = 0.1;
+const TABLE_ANGLE_STEP = 1.0;
+
+
+//OBJECT CONSTANTS
+const OBJECT_X = 3;
+const OBJECT_Y = 7;
+const OBJECT_Z = 11;
+
+
 //Scene object constants
 const objectIndex = {
     BALL: 0,
@@ -63,7 +107,7 @@ const modelSources = [
 const localMatrices = [
     utils.MakeWorld(-0.30053, 8.5335, -5.9728, 0.0, 0.0, 0.0, 1.0),
     //TODO set right world matrix for BODY
-    utils.MakeWorld(0.0, 0.0, 0.0, 0.0, 0.0, 0.0,  1.05),
+    utils.MakeWorld(TABLE_X, TABLE_Y, TABLE_Z, 0.0, 0.0, 0.0, 1.05),
     utils.MakeWorld(1.1819, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
     utils.MakeWorld(-1.5055, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
     utils.MakeWorld(-0.11626, 9.1362, 0.020626, -6.51, 0.0, 0.0, 1.0),
@@ -86,41 +130,5 @@ const localMatrices = [
     utils.MakeWorld(-2.5264, 8.3925, -7.5892, 0.0, -90.0, 0.0, 1.0)
 ];
 
-//Camera constants
-const CAMERA_X = 0.0;
-const CAMERA_Y = 13.0;
-const CAMERA_Z = -7.3;
-const CAMERA_ELEVATION = -40.0;
-const CAMERA_ANGLE = 180.0;
-
-const CAM_MAX_X = 10.0;
-const CAM_MAX_Y = 15.0;
-const CAM_MIN_X = -10.0;
-const CAM_MIN_Y = -10.0;
-const CAM_MAX_ELEVATION = 90.0;
-const CAM_MAX_ANGLE = 90.0;
-const CAM_MIN_ELEVATION = -90.0;
-const CAM_MIN_ANGLE = -90.0;
-const CAMERA_STEP = 0.1;
-const CAMERA_ANGLE_STEP = 1.0;
-
-
-//TABLE MOVEMENTS CONSTANTS
-const TABLE_MAX_X = 10.0;
-const TABLE_MAX_Y = 15.0;
-const TABLE_MIN_X = -10.0;
-const TABLE_MIN_Y = -10.0;
-const TABLE_MAX_ELEVATION = 90.0;
-const TABLE_MAX_ANGLE = 90.0;
-const TABLE_MIN_ELEVATION = -90.0;
-const TABLE_MIN_ANGLE = -90.0;
-const TABLE_STEP = 0.1;
-const TABLE_ANGLE_STEP = 1.0;
-
-
-//OBJECT CONSTANTS
-const OBJECT_X = 3;
-const OBJECT_Y = 7;
-const OBJECT_Z = 11;
 
 

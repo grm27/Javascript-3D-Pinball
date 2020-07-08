@@ -54,13 +54,18 @@
 
             <p><b> Checkbox </b></p>
             <input type="checkbox" id="chbx" onclick="onCheckBoxChange(this.checked);"/> Move Lights<br/>
-            <p><b> Drop-down list</b></p>
-            <!-- TODO name son giusti? -->
-            <select id="drop-down" name="" onchange="onDropdownChange(this.value);">
-                <option value="1" selected>Option 1</option>
-                <option value="2">Option 2</option>
-                <option value="3">Option 3</option>
+            <p><b>Select Light Type</b></p>
+            <select id="drop-down" name="" onchange="updateLightType(this.value);">
+                <option value="1">Directional</option>
+                <option value="2">Point</option>
+                <option value="3">Point with decay</option>
+                <option value="4">Spot</option>
+                <option value="5" selected>No Light</option>
             </select>
+            <p><b>  Light Color </b></p>
+            <p>
+                <input id="colorPicker2" type="color" value="#ffffff" onchange="updateLightColor(this.value);"/>
+            </p>
             <p><b>  Ambient Light Color </b></p>
             <p>
                 <input id="colorPicker" type="color" value="#000000" onchange="updateAmbientLightColor(this.value);"/>

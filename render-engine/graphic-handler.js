@@ -4,8 +4,19 @@ let camera_z = CAMERA_Z;
 let camera_elevation = CAMERA_ELEVATION;
 let camera_angle = CAMERA_ANGLE;
 
+// Parameters for light definition (directional light)
+var dirLightAlpha = -utils.degToRad(60);
+var dirLightBeta  = -utils.degToRad(120);
+// Use the Utils 0.2 to use mat3
+var lightDirection = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
+    Math.sin(dirLightAlpha),
+    Math.cos(dirLightAlpha) * Math.sin(dirLightBeta),
+];
+var lightPosition = [0.0, 10.0, 5.0];
 var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
+var lightColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
 var ambientLightInfluence = 0.0;
+var currentLightType = 5;
 
 function main() {
 
@@ -33,7 +44,8 @@ function draw() {
     graph.forEach(function (node) {
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
-
+        node.lightDir = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightDirection);
+        node.lightPos = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightPosition);
         gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
 
         gl.uniform4f(glslLocations.ambientLocation, ambientLightColor[0],
@@ -41,6 +53,18 @@ function draw() {
             ambientLightColor[2],
             ambientLightColor[3]);
         gl.uniform1f(glslLocations.ambientLightInfluence, ambientLightInfluence);
+
+        gl.uniform1i(glslLocations.lightType, currentLightType);
+        gl.uniform4f(glslLocations.lightColor, lightColor[0],
+            lightColor[1],
+            lightColor[2],
+            lightColor[3]);
+        gl.uniform3f(glslLocations.lightDirection, node.lightDir[0],
+            node.lightDir[1],
+            node.lightDir[2]);
+        gl.uniform3f(glslLocations.lightPosition, node.lightPos[0],
+            node.lightPos[1],
+            node.lightPos[2]);
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -65,13 +89,13 @@ let velocityX = -0.1;
 let velocityY = 0.0;
 let velocityZ = 0.0;
 
-function animate(deltaT){
+function animate(deltaT) {
     velocityX += getDeltaV(deltaT, aX);
     velocityY += getDeltaV(deltaT, aY);
     velocityZ += getDeltaV(deltaT, aZ);
 
     console.log("VEL" + velocityX);
-    deltaX = getDeltaS(deltaT, aX, velocityX)/10;
+    deltaX = getDeltaS(deltaT, aX, velocityX) / 10;
     deltaY = getDeltaS(deltaT, aY, velocityY);
     deltaZ = getDeltaS(deltaT, aZ, velocityZ);
     console.log("DELTA " + deltaX);
@@ -131,7 +155,7 @@ function updateViewMatrix() {
 
 }
 
-function updateWorldMatrix(){
+function updateWorldMatrix() {
 
     let tableX = graphRoot.worldMatrix[OBJECT_X];
     let tableY = graphRoot.worldMatrix[OBJECT_Y];
@@ -159,17 +183,17 @@ function updateWorldMatrix(){
     }
 
     if (aPressed) {
-        if ((tableX - TABLE_STEP)  > TABLE_MIN_X) {
+        if ((tableX - TABLE_STEP) > TABLE_MIN_X) {
             graphRoot.localMatrix[OBJECT_X] -= TABLE_STEP;
             updated = true;
         }
     }
 
-    if(updated)
+    if (updated)
         graphRoot.updateWorldMatrix();
 }
 
-function resetPositions(){
+function resetPositions() {
 
     if (rPressed) {
         camera_x = CAMERA_X;
@@ -183,20 +207,33 @@ function resetPositions(){
     }
 }
 
-function updateNodeMatrix(i, transformationMatrix){
+function updateNodeMatrix(i, transformationMatrix) {
 
     graph[i].localMatrix = utils.multiplyMatrices(transformationMatrix, graph[i].localMatrix);
 }
 
 function updateAmbientLightColor(val) {
 
-    val = val.replace('#','');
-    ambientLightColor[0] = parseInt(val.substring(0,2), 16) / 255;
-    ambientLightColor[1] = parseInt(val.substring(2,4), 16) / 255;
-    ambientLightColor[2] = parseInt(val.substring(4,6), 16) / 255;
+    val = val.replace('#', '');
+    ambientLightColor[0] = parseInt(val.substring(0, 2), 16) / 255;
+    ambientLightColor[1] = parseInt(val.substring(2, 4), 16) / 255;
+    ambientLightColor[2] = parseInt(val.substring(4, 6), 16) / 255;
     ambientLightColor[3] = 1.0;
+}
+
+function updateLightColor(val) {
+
+    val = val.replace('#', '');
+    lightColor[0] = parseInt(val.substring(0, 2), 16) / 255;
+    lightColor[1] = parseInt(val.substring(2, 4), 16) / 255;
+    lightColor[2] = parseInt(val.substring(4, 6), 16) / 255;
+    lightColor[3] = 1.0;
 }
 
 function updateAmbientLightInfluence(val) {
     ambientLightInfluence = val;
+}
+
+function updateLightType(val) {
+    currentLightType = parseInt(val);
 }

@@ -238,7 +238,11 @@ function loadGlslProperties() {
         matrixLocation: gl.getUniformLocation(program, "matrix"),
         textLocation: gl.getUniformLocation(program, "u_texture"),
         ambientLocation: gl.getUniformLocation(program, 'ambientLightColor'),
-        ambientLightInfluence: gl.getUniformLocation(program, 'ambientLightInfluence')
+        ambientLightInfluence: gl.getUniformLocation(program, 'ambientLightInfluence'),
+        lightType: gl.getUniformLocation(program, 'lightType'),
+        lightColor: gl.getUniformLocation(program, 'lightColor'),
+        lightDirection: gl.getUniformLocation(program, 'lightDirection'),
+        lightPosition: gl.getUniformLocation(program, 'lightPosition')
     }
 }
 

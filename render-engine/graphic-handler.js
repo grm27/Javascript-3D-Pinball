@@ -6,13 +6,13 @@ let camera_angle = CAMERA_ANGLE;
 
 // Parameters for light definition (directional light)
 var dirLightAlpha = -utils.degToRad(60);
-var dirLightBeta = -utils.degToRad(120);
-// Use the Utils 0.2 to use mat3
+var dirLightBeta  = -utils.degToRad(120);
+
 var lightDirection = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
     Math.sin(dirLightAlpha),
     Math.cos(dirLightAlpha) * Math.sin(dirLightBeta),
 ];
-var lightPosition = [30.0, 10.0, 15.0];
+var lightPosition = [0.0, 10.0, 0.0];
 var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
 var lightColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
 var ambientLightInfluence = 0.0;
@@ -33,7 +33,7 @@ function draw() {
 
     //update view matrix intercepting keyboard events
     resetPositions();
-
+    manageLights();
     updateViewMatrix();
 
     updateWorldMatrix();
@@ -134,6 +134,7 @@ function checkTableMovements() {
     let tableY = graphRoot.localMatrix[OBJECT_Y];
     let tableZ = graphRoot.localMatrix[OBJECT_Z];
 
+
     if (wPressed) {
         if ((tableY + TABLE_STEP) < TABLE_MAX_Y) {
             graphRoot.localMatrix[OBJECT_Y] += TABLE_STEP;
@@ -184,6 +185,15 @@ function resetPositions() {
         graphRoot.localMatrix[OBJECT_X] = TABLE_X;
         graphRoot.localMatrix[OBJECT_Y] = TABLE_Y;
         graphRoot.localMatrix[OBJECT_Z] = TABLE_Z;
+    }
+}
+
+function manageLights() {
+    if (vPressed && currentLightType !== 5) {
+        lightPosition[0] += 1.0;
+    }
+    if (bPressed && currentLightType !== 5) {
+        lightPosition[0] -= 1.0;
     }
 }
 

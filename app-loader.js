@@ -294,7 +294,11 @@ window.addEventListener("keydown", uDown, false);
 window.addEventListener("keydown", jDown, false);
 window.addEventListener("keydown", hDown, false);
 window.addEventListener("keydown", kDown, false);
+window.addEventListener("keydown", vDown, false);
+window.addEventListener("keydown", bDown, false);
 
+window.addEventListener("keyup", bUp, false);
+window.addEventListener("keyup", vUp, false);
 window.addEventListener("keyup", uUp, false);
 window.addEventListener("keyup", jUp, false);
 window.addEventListener("keyup", hUp, false);

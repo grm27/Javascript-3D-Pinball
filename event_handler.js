@@ -178,6 +178,44 @@ function kUp(e)
     }
 }
 
+let vPressed = false;
+function vDown(e)
+{
+    if(e.key === "v") //left arrow
+    {
+
+        vPressed = true;
+    }
+}
+
+function vUp(e)
+{
+    if(e.key === "v") //left arrow
+    {
+
+        vPressed = false;
+    }
+}
+
+let bPressed = false;
+function bDown(e)
+{
+    if(e.key === "b") //left arrow
+    {
+
+        bPressed = true;
+    }
+}
+
+function bUp(e)
+{
+    if(e.key === "b") //left arrow
+    {
+
+        bPressed = false;
+    }
+}
+
 let wPressed = false;
 let aPressed = false;
 let sPressed = false;

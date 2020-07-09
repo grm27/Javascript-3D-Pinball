@@ -6,13 +6,13 @@ let camera_angle = CAMERA_ANGLE;
 
 // Parameters for light definition (directional light)
 var dirLightAlpha = -utils.degToRad(60);
-var dirLightBeta  = -utils.degToRad(120);
+var dirLightBeta = -utils.degToRad(120);
 // Use the Utils 0.2 to use mat3
 var lightDirection = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
     Math.sin(dirLightAlpha),
     Math.cos(dirLightAlpha) * Math.sin(dirLightBeta),
 ];
-var lightPosition = [0.0, 10.0, 5.0];
+var lightPosition = [30.0, 10.0, 15.0];
 var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
 var lightColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
 var ambientLightInfluence = 0.0;
@@ -109,10 +109,18 @@ function updateViewMatrix() {
 
 function updateWorldMatrix() {
 
+    if (upArrowPressed) {
+        ball.state.pos.x += 0.1;
+    }
+    if (downArrowPressed) {
+        ball.state.pos.x -= 0.1;
+    }
     let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
 
+    console.log("BEFORE:" + ballPosition);
     //from collision space to world space
-    ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(-0.30053, 8.5335, -5.9728, 45.0, 0.0, 0.0, 2.0), ballPosition);
+    ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(88, 2, 0, 45, 0, 0, 5.0), ballPosition);
+    console.log("AFTER:" + ballPosition);
     graph[objectIndex.BALL].localMatrix[OBJECT_X] = ballPosition[0];
     graph[objectIndex.BALL].localMatrix[OBJECT_Y] = ballPosition[1];
     graph[objectIndex.BALL].localMatrix[OBJECT_Z] = ballPosition[2];
@@ -122,9 +130,9 @@ function updateWorldMatrix() {
 
 function checkTableMovements() {
 
-    let tableX = graphRoot.worldMatrix[OBJECT_X];
-    let tableY = graphRoot.worldMatrix[OBJECT_Y];
-    let tableZ = graphRoot.worldMatrix[OBJECT_Z];
+    let tableX = graphRoot.localMatrix[OBJECT_X];
+    let tableY = graphRoot.localMatrix[OBJECT_Y];
+    let tableZ = graphRoot.localMatrix[OBJECT_Z];
 
     if (wPressed) {
         if ((tableY + TABLE_STEP) < TABLE_MAX_Y) {

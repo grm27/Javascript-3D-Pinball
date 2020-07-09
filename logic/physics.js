@@ -16,6 +16,7 @@ function initWorld() {
         , restitution: 0.99
         , cof: 0.8
     });
+    
 
     ball = Physics.body('circle', {
         x: 0.5, // x-coordinate

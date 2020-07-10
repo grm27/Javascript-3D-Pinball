@@ -21,6 +21,7 @@ uniform float decay;
 uniform vec3 eyePosition;
 
 uniform mat4 matrix;
+uniform mat4 world_matrix;
 
 vec4 lightModel(int lt, vec3 pos) {
 
@@ -57,10 +58,11 @@ vec4 lightModel(int lt, vec3 pos) {
 void main() {
   uvFS = a_uv;
   gl_Position = matrix * vec4(a_position,1.0);
+  vec3 world_position = (world_matrix * vec4(a_position,1.0)).xyz;
   vec3 nNormal = normalize(inNormal);
-  vec3 nEyeDirection = normalize(eyePosition - a_position);
+  vec3 nEyeDirection = normalize(eyePosition - world_position);
 
-  vec4 lm = lightModel(lightType, a_position);
+  vec4 lm = lightModel(lightType, world_position);
   vec3 nlightDirection = lm.rgb;
   float lightDimension = lm.a;
 

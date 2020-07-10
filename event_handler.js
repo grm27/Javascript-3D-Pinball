@@ -160,7 +160,7 @@ function kUp(e)
 }
 
 let rPressed = false;
-function kDown(e)
+function rDown(e)
 {
     if(e.key === "r") //left arrow
     {
@@ -169,7 +169,7 @@ function kDown(e)
     }
 }
 
-function kUp(e)
+function rUp(e)
 {
     if(e.key === "r") //left arrow
     {

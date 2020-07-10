@@ -215,11 +215,11 @@ function loadModelProperties(index) {
 
 function loadTextures() {
     texture = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, texture);
 
     let image = new Image();
     image.src = BASE_DIR + ASSETS_TEXTURE_DIR;
     image.onload = function () {
+        console.log(texture);
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
@@ -236,6 +236,7 @@ function loadGlslProperties() {
         normalsAttribLocation: gl.getAttribLocation(program, "inNormal"),
         uvAttributeLocation: gl.getAttribLocation(program, "a_uv"),
         matrixLocation: gl.getUniformLocation(program, "matrix"),
+        worldMatrixLocation: gl.getUniformLocation(program, "world_matrix"),
         textLocation: gl.getUniformLocation(program, "u_texture"),
         ambientLocation: gl.getUniformLocation(program, 'ambientLightColor'),
         ambientLightInfluence: gl.getUniformLocation(program, 'ambientLightInfluence'),
@@ -303,6 +304,7 @@ window.addEventListener("keydown", hDown, false);
 window.addEventListener("keydown", kDown, false);
 window.addEventListener("keydown", vDown, false);
 window.addEventListener("keydown", bDown, false);
+window.addEventListener("keydown", rDown, false);
 
 window.addEventListener("keyup", bUp, false);
 window.addEventListener("keyup", vUp, false);
@@ -310,12 +312,8 @@ window.addEventListener("keyup", uUp, false);
 window.addEventListener("keyup", jUp, false);
 window.addEventListener("keyup", hUp, false);
 window.addEventListener("keyup", kUp, false);
+window.addEventListener("keyup", rUp, false);
 
 window.addEventListener("keydown", wasdPressed, false);
 window.addEventListener("keyup", wasdReleased, false);
 
-//window.addEventListener("keydown", paletteUPMovement, false);
-//window.addEventListener("keyup", paletteDOWNMovement, false);
-//window.addEventListener("keydown", resetBall, false);
-//window.addEventListener("keydown", reloaderUPMovement, false);
-//window.addEventListener("keyup", reloaderDOWNMovement, false);

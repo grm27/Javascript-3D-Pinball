@@ -42,18 +42,21 @@ function draw() {
     updateViewMatrix();
 
     updateWorldMatrix();
+    graphRoot.updateWorldMatrix();
 
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
-    graphRoot.updateWorldMatrix();
     graph.forEach(function (node) {
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
+
         node.lightDir = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightDirection);
         node.lightPos = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightPosition);
         node.observerObj = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), [camera_x, camera_y, camera_z]);
+
         gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
+        gl.uniformMatrix4fv(glslLocations.worldMatrixLocation, gl.FALSE, utils.transposeMatrix(node.worldMatrix));
 
         gl.uniform4f(glslLocations.ambientLocation, ambientLightColor[0],
             ambientLightColor[1],
@@ -128,15 +131,43 @@ function updateViewMatrix() {
 
 }
 
+let ballX = 0;
+let ballY = 9;
+let ballZ = -8.5;
+
 function updateWorldMatrix() {
 
-    if (upArrowPressed) {
-        ball.state.pos.x += 0.1;
-    }
-    if (downArrowPressed) {
-        ball.state.pos.x -= 0.1;
-    }
+    // if (rightArrowPressed) {
+    //     // ball.state.pos.x += 0.1;
+    //     ballX+=0.005;
+    // }
+    // if (leftArrowPressed) {
+    //     // ball.state.pos.x -= 0.1;
+    //     ballX-=0.005;
+    // }
+
+    // if (rightArrowPressed) {
+    //     // ball.state.pos.y += 0.1;
+    //     ballY+=0.005;
+    // }
+    // if (leftArrowPressed) {
+    //     ballY-=0.005;
+    // }
+    //
+    // if (upArrowPressed) {
+    //     // ball.state.pos.y += 0.1;
+    //     ballZ+=0.005;
+    // }
+    // if (downArrowPressed) {
+    //     ballZ-=0.005;
+    // }
+
+
     let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
+
+    console.log("X:" + ball.state.pos.x);
+    console.log("Y:" + ball.state.pos.y);
+    console.log("Z:" + ballZ);
 
     //console.log("BEFORE:" + ballPosition);
     //from collision space to world space

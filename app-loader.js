@@ -242,7 +242,14 @@ function loadGlslProperties() {
         lightType: gl.getUniformLocation(program, 'lightType'),
         lightColor: gl.getUniformLocation(program, 'lightColor'),
         lightDirection: gl.getUniformLocation(program, 'lightDirection'),
-        lightPosition: gl.getUniformLocation(program, 'lightPosition')
+        lightPosition: gl.getUniformLocation(program, 'lightPosition'),
+        eyePosition: gl.getUniformLocation(program, 'eyePosition'),
+        specularReflLocation: gl.getUniformLocation(program, 'specularReflection'),
+        mSpecColorLocation: gl.getUniformLocation(program, 'mSpecColor'),
+        mSpecPowerLocation: gl.getUniformLocation(program, 'mSpecPower'),
+        diffColorLocation: gl.getUniformLocation(program, 'mDiffColor'),
+        decayLocation: gl.getUniformLocation(program, 'decay'),
+
     }
 }
 

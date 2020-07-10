@@ -6,17 +6,22 @@ let camera_angle = CAMERA_ANGLE;
 
 // Parameters for light definition (directional light)
 var dirLightAlpha = -utils.degToRad(60);
-var dirLightBeta  = -utils.degToRad(120);
+var dirLightBeta = -utils.degToRad(120);
 
 var lightDirection = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
     Math.sin(dirLightAlpha),
     Math.cos(dirLightAlpha) * Math.sin(dirLightBeta),
 ];
+var decay = 1;
+var specularColor = [1.0, 1.0, 0.0, 1.0];
+var diffuseColor = [0.0, 0.0, 1.0, 1.0];
 var lightPosition = [0.0, 10.0, 0.0];
 var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
 var lightColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
 var ambientLightInfluence = 0.0;
 var currentLightType = 5;
+var currentSpecularReflection = 1;
+var objectSpecularPower = 20.0;
 
 function main() {
     initWorld();
@@ -47,6 +52,7 @@ function draw() {
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
         node.lightDir = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightDirection);
         node.lightPos = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightPosition);
+        node.observerObj = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), [camera_x, camera_y, camera_z]);
         gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
 
         gl.uniform4f(glslLocations.ambientLocation, ambientLightColor[0],
@@ -66,6 +72,21 @@ function draw() {
         gl.uniform3f(glslLocations.lightPosition, node.lightPos[0],
             node.lightPos[1],
             node.lightPos[2]);
+        gl.uniform3f(glslLocations.eyePosition, node.observerObj[0],
+            node.observerObj[1],
+            node.observerObj[2]);
+        gl.uniform1i(glslLocations.specularReflLocation, currentSpecularReflection);
+        gl.uniform4f(glslLocations.mSpecColorLocation, specularColor[0],
+            specularColor[1],
+            specularColor[2],
+            specularColor[3]);
+        gl.uniform1f(glslLocations.mSpecPowerLocation, objectSpecularPower);
+        gl.uniform4f(glslLocations.diffColorLocation, diffuseColor[0],
+            diffuseColor[1],
+            diffuseColor[2],
+            diffuseColor[3]);
+        gl.uniform1f(glslLocations.decayLocation, decay);
+
 
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, texture);
@@ -117,10 +138,10 @@ function updateWorldMatrix() {
     }
     let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
 
-    console.log("BEFORE:" + ballPosition);
+    //console.log("BEFORE:" + ballPosition);
     //from collision space to world space
     ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(88, 2, 0, 45, 0, 0, 5.0), ballPosition);
-    console.log("AFTER:" + ballPosition);
+    //console.log("AFTER:" + ballPosition);
     graph[objectIndex.BALL].localMatrix[OBJECT_X] = ballPosition[0];
     graph[objectIndex.BALL].localMatrix[OBJECT_Y] = ballPosition[1];
     graph[objectIndex.BALL].localMatrix[OBJECT_Z] = ballPosition[2];
@@ -225,6 +246,20 @@ function updateAmbientLightInfluence(val) {
     ambientLightInfluence = val;
 }
 
+function updateDecay(val) {
+    if (val < 0.1)
+        //no decay
+        decay = 1.0;
+    else if (val < 1.0)
+        decay = val*100;
+    else
+        decay = 1000;
+}
+
 function updateLightType(val) {
     currentLightType = parseInt(val);
+}
+
+function updateSpecRefl(val) {
+    currentSpecularReflection = parseInt(val);
 }

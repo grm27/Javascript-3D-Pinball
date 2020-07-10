@@ -39,15 +39,14 @@
     <p><b> Radio buttons </b></p>
     <form>
         <!-- TODO cosa sono id e name? -->
-        <input type="radio" name="light" id="yesl" onchange="onRadioButtonChange(this.value);" value="1"
-               checked> Option 1 <br/>
-        <input type="radio" name="light" onchange="onRadioButtonChange(this.value);" value="2"> Option 2 <br/>
-        <input type="radio" name="light" onchange="onRadioButtonChange(this.value);" value="3"> Option 3 <br/>
+        <input type="radio" name="light" id="yesl" onchange="updateSpecRefl(this.value);" value="1"
+               checked> Phong Specular <br/>
+        <input type="radio" name="light" onchange="updateSpecRefl(this.value);" value="0"> Blinn Specular <br/>
     </form>
-    <p><b> Slider </b></p>
-    <div id="slider1"> 0
-        <input id="slide1" type="range" min="0" max="1" step="0.1" value="0"
-               onchange="onSliderChange(this.value);"/> 1 <br/>
+    <p><b> Light Decay </b></p>
+    <div id="slider1"> no decay
+        <input id="slide1" type="range" min="0.0" max="1.0" step="0.1" value="0.0"
+               onchange="updateDecay(this.value);"/> 1 <br/>
     </div>
 
     <p><b> Checkbox </b></p>

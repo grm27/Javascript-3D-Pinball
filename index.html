@@ -35,8 +35,8 @@
 <div style="position: absolute; z-index: 1; right: 0px; top: 0px; width:200px; height: 100%; background-color: white; border-style: dashed; border-color: blue; opacity: 0.7; padding: 5px 10px 5px 10px; overflow:auto">
 
     <p>
-    <h2> GUI examples </h2></p>
-    <p><b> Radio buttons </b></p>
+    <h2> Menu </h2></p>
+    <p><b> Specular Type </b></p>
     <form>
         <!-- TODO cosa sono id e name? -->
         <input type="radio" name="light" id="yesl" onchange="updateSpecRefl(this.value);" value="1"
@@ -44,13 +44,15 @@
         <input type="radio" name="light" onchange="updateSpecRefl(this.value);" value="0"> Blinn Specular <br/>
     </form>
     <p><b> Light Decay </b></p>
-    <div id="slider1"> no decay
+    <div id="slider1"> 1
         <input id="slide1" type="range" min="0.0" max="1.0" step="0.1" value="0.0"
-               onchange="updateDecay(this.value);"/> 1 <br/>
+               onchange="updateDecay(this.value);"/> 0 <br/>
     </div>
 
-    <p><b> Checkbox </b></p>
-    <input type="checkbox" id="chbx" onclick="onCheckBoxChange(this.checked);"/> Move Lights<br/>
+    <p><b>  Specular Color </b></p>
+    <p>
+        <input id="colorPicker3" type="color" value="#ffff00" onchange="updateSpecularColor(this.value);"/>
+    </p>
     <p><b>Select Light Type</b></p>
     <select id="drop-down" name="" onchange="updateLightType(this.value);">
         <option value="1">Directional</option>

@@ -90,7 +90,6 @@ function draw() {
             diffuseColor[3]);
         gl.uniform1f(glslLocations.decayLocation, decay);
 
-
         gl.activeTexture(gl.TEXTURE0);
         gl.bindTexture(gl.TEXTURE_2D, texture);
         gl.uniform1i(glslLocations.textLocation, texture);
@@ -293,4 +292,12 @@ function updateLightType(val) {
 
 function updateSpecRefl(val) {
     currentSpecularReflection = parseInt(val);
+}
+
+function updateSpecularColor(val) {
+    val = val.replace('#', '');
+    specularColor[0] = parseInt(val.substring(0, 2), 16) / 255;
+    specularColor[1] = parseInt(val.substring(2, 4), 16) / 255;
+    specularColor[2] = parseInt(val.substring(4, 6), 16) / 255;
+    specularColor[3] = 1.0;
 }

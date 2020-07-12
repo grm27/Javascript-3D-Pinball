@@ -1,4 +1,6 @@
-let program;
+//let program;
+let currShader = 0;
+let programArray = [];
 let gl;
 let meshes = [];
 let graph;
@@ -15,12 +17,17 @@ async function init() {
         return;
     }
 
-    await utils.loadFiles([SHADER_DIR + 'vs.glsl', SHADER_DIR + 'fs.glsl'], function (shaderText) {
-        let vertexShader = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
-        let fragmentShader = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
-        program = utils.createProgram(gl, vertexShader, fragmentShader);
-    });
-    gl.useProgram(program);
+    await utils.loadFiles([SHADER_DIR + 'vs_v.glsl', SHADER_DIR + 'fs_v.glsl',
+            SHADER_DIR + 'vs_p.glsl', SHADER_DIR + 'fs_p.glsl'],
+        function (shaderText) {
+            let vertexShader_v = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[0]);
+            let fragmentShader_v = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[1]);
+            let vertexShader_p = utils.createShader(gl, gl.VERTEX_SHADER, shaderText[2]);
+            let fragmentShader_p = utils.createShader(gl, gl.FRAGMENT_SHADER, shaderText[3]);
+            programArray.push(utils.createProgram(gl, vertexShader_v, fragmentShader_v));
+            programArray.push(utils.createProgram(gl, vertexShader_p, fragmentShader_p));
+        });
+    gl.useProgram(programArray[0]);
     initGlContext();
 
     //This loads the obj models
@@ -232,25 +239,24 @@ function loadTextures() {
 function loadGlslProperties() {
 
     return {
-        positionAttributeLocation: gl.getAttribLocation(program, "a_position"),
-        normalsAttribLocation: gl.getAttribLocation(program, "inNormal"),
-        uvAttributeLocation: gl.getAttribLocation(program, "a_uv"),
-        matrixLocation: gl.getUniformLocation(program, "matrix"),
-        worldMatrixLocation: gl.getUniformLocation(program, "world_matrix"),
-        textLocation: gl.getUniformLocation(program, "u_texture"),
-        ambientLocation: gl.getUniformLocation(program, 'ambientLightColor'),
-        ambientLightInfluence: gl.getUniformLocation(program, 'ambientLightInfluence'),
-        lightType: gl.getUniformLocation(program, 'lightType'),
-        lightColor: gl.getUniformLocation(program, 'lightColor'),
-        lightDirection: gl.getUniformLocation(program, 'lightDirection'),
-        lightPosition: gl.getUniformLocation(program, 'lightPosition'),
-        eyePosition: gl.getUniformLocation(program, 'eyePosition'),
-        specularReflLocation: gl.getUniformLocation(program, 'specularReflection'),
-        mSpecColorLocation: gl.getUniformLocation(program, 'mSpecColor'),
-        mSpecPowerLocation: gl.getUniformLocation(program, 'mSpecPower'),
-        diffColorLocation: gl.getUniformLocation(program, 'mDiffColor'),
-        decayLocation: gl.getUniformLocation(program, 'decay'),
-
+        positionAttributeLocation: gl.getAttribLocation(programArray[currShader], "a_position"),
+        normalsAttribLocation: gl.getAttribLocation(programArray[currShader], "inNormal"),
+        uvAttributeLocation: gl.getAttribLocation(programArray[currShader], "a_uv"),
+        matrixLocation: gl.getUniformLocation(programArray[currShader], "matrix"),
+        worldMatrixLocation: gl.getUniformLocation(programArray[currShader], "world_matrix"),
+        textLocation: gl.getUniformLocation(programArray[currShader], "u_texture"),
+        ambientLocation: gl.getUniformLocation(programArray[currShader], 'ambientLightColor'),
+        ambientLightInfluence: gl.getUniformLocation(programArray[currShader], 'ambientLightInfluence'),
+        lightType: gl.getUniformLocation(programArray[currShader], 'lightType'),
+        lightColor: gl.getUniformLocation(programArray[currShader], 'lightColor'),
+        lightDirection: gl.getUniformLocation(programArray[currShader], 'lightDirection'),
+        lightPosition: gl.getUniformLocation(programArray[currShader], 'lightPosition'),
+        eyePosition: gl.getUniformLocation(programArray[currShader], 'eyePosition'),
+        specularReflLocation: gl.getUniformLocation(programArray[currShader], 'specularReflection'),
+        mSpecColorLocation: gl.getUniformLocation(programArray[currShader], 'mSpecColor'),
+        mSpecPowerLocation: gl.getUniformLocation(programArray[currShader], 'mSpecPower'),
+        diffColorLocation: gl.getUniformLocation(programArray[currShader], 'mDiffColor'),
+        decayLocation: gl.getUniformLocation(programArray[currShader], 'decay')
     }
 }
 
@@ -316,4 +322,3 @@ window.addEventListener("keyup", rUp, false);
 
 window.addEventListener("keydown", wasdPressed, false);
 window.addEventListener("keyup", wasdReleased, false);
-

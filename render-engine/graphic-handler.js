@@ -35,7 +35,8 @@ function draw() {
     // utils.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(0.0, 0.0, 0.0, 0.3);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+    gl.useProgram(programArray[currShader]);
+    glslLocations = loadGlslProperties();
     //update view matrix intercepting keyboard events
     resetPositions();
     manageLights();
@@ -164,9 +165,9 @@ function updateWorldMatrix() {
 
     let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
 
-    console.log("X:" + ball.state.pos.x);
-    console.log("Y:" + ball.state.pos.y);
-    console.log("Z:" + ballZ);
+    //console.log("X:" + ball.state.pos.x);
+    //console.log("Y:" + ball.state.pos.y);
+    //console.log("Z:" + ballZ);
 
     //console.log("BEFORE:" + ballPosition);
     //from collision space to world space
@@ -300,4 +301,8 @@ function updateSpecularColor(val) {
     specularColor[1] = parseInt(val.substring(2, 4), 16) / 255;
     specularColor[2] = parseInt(val.substring(4, 6), 16) / 255;
     specularColor[3] = 1.0;
+}
+
+function updateShader(val) {
+    currShader = parseInt(val);
 }

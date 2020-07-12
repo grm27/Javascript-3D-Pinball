@@ -21,7 +21,6 @@
 <canvas id="c" width="1100" height="605">
     Your browser does not support the HTML5 canvas element.
 </canvas>
-<!-- TODO controllare questo -->
 <div id="legend"
      style="position: absolute; z-index: 1; left: 40px; top: 400px; width:300px; height:165px; background-color: white; border-style: dashed; border-color: blue; opacity: 0.7; padding: 5px 10px 5px 10px; overflow:auto">
     <p style="font-family: Courier New">
@@ -36,12 +35,10 @@
 
     <p>
     <h2> Menu </h2></p>
-    <p><b> Specular Type </b></p>
     <form>
-        <!-- TODO cosa sono id e name? -->
-        <input type="radio" name="light" id="yesl" onchange="updateSpecRefl(this.value);" value="1"
-               checked> Phong Specular <br/>
-        <input type="radio" name="light" onchange="updateSpecRefl(this.value);" value="0"> Blinn Specular <br/>
+        <input type="radio" name="light2" id="yesl1" onchange="updateShader(this.value);" value="0"
+               checked> Per Vertex <br/>
+        <input type="radio" name="light2" onchange="updateShader(this.value);" value="1"> Per Pixel  <br/>
     </form>
     <p><b> Light Decay </b></p>
     <div id="slider1"> 1
@@ -75,6 +72,12 @@
                onchange="updateAmbientLightInfluence(this.value);"/> 1 <br/>
 
     </div>
+    <p></p>
+    <form>
+        <input type="radio" name="light" id="yesl" onchange="updateSpecRefl(this.value);" value="1"
+               checked> Phong Specular <br/>
+        <input type="radio" name="light" onchange="updateSpecRefl(this.value);" value="0"> Blinn Specular <br/>
+    </form>
 </div>
 </body>
 </html>

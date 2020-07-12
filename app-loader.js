@@ -41,6 +41,7 @@ async function init() {
 
     //load glsl properties
     glslLocations = loadGlslProperties();
+
     //load textures
     loadTextures();
 
@@ -221,6 +222,7 @@ function loadModelProperties(index) {
 }
 
 function loadTextures() {
+
     texture = gl.createTexture();
 
     let image = new Image();
@@ -294,31 +296,6 @@ function bindBuffer(glslLocation, array, size) {
 
 window.onload = init;
 
-window.addEventListener("keydown", upArrowDown, false);
-window.addEventListener("keydown", downArrowDown, false);
-window.addEventListener("keydown", leftArrowDown, false);
-window.addEventListener("keydown", rightArrowDown, false);
+window.addEventListener("keydown", handleDown, false);
+window.addEventListener("keyup", handleUp, false);
 
-window.addEventListener("keyup", upArrowUp, false);
-window.addEventListener("keyup", downArrowUp, false);
-window.addEventListener("keyup", leftArrowUp, false);
-window.addEventListener("keyup", rightArrowUp, false);
-
-window.addEventListener("keydown", uDown, false);
-window.addEventListener("keydown", jDown, false);
-window.addEventListener("keydown", hDown, false);
-window.addEventListener("keydown", kDown, false);
-window.addEventListener("keydown", vDown, false);
-window.addEventListener("keydown", bDown, false);
-window.addEventListener("keydown", rDown, false);
-
-window.addEventListener("keyup", bUp, false);
-window.addEventListener("keyup", vUp, false);
-window.addEventListener("keyup", uUp, false);
-window.addEventListener("keyup", jUp, false);
-window.addEventListener("keyup", hUp, false);
-window.addEventListener("keyup", kUp, false);
-window.addEventListener("keyup", rUp, false);
-
-window.addEventListener("keydown", wasdPressed, false);
-window.addEventListener("keyup", wasdReleased, false);

@@ -24,13 +24,11 @@ var currentSpecularReflection = 1;
 var objectSpecularPower = 20.0;
 
 function main() {
-    initWorld();
+
     draw();
 }
 
 function draw() {
-
-    world.step();
 
     // utils.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(0.0, 0.0, 0.0, 0.3);
@@ -41,7 +39,6 @@ function draw() {
     resetPositions();
     manageLights();
     updateViewMatrix();
-
     updateWorldMatrix();
     graphRoot.updateWorldMatrix();
 
@@ -163,19 +160,19 @@ function updateWorldMatrix() {
     // }
 
 
-    let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
-
-    //console.log("X:" + ball.state.pos.x);
-    //console.log("Y:" + ball.state.pos.y);
-    //console.log("Z:" + ballZ);
-
-    //console.log("BEFORE:" + ballPosition);
-    //from collision space to world space
-    ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(88, 2, 0, 45, 0, 0, 5.0), ballPosition);
-    //console.log("AFTER:" + ballPosition);
-    graph[objectIndex.BALL].localMatrix[OBJECT_X] = ballPosition[0];
-    graph[objectIndex.BALL].localMatrix[OBJECT_Y] = ballPosition[1];
-    graph[objectIndex.BALL].localMatrix[OBJECT_Z] = ballPosition[2];
+    // let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
+    //
+    // console.log("X:" + ball.state.pos.x);
+    // console.log("Y:" + ball.state.pos.y);
+    // console.log("Z:" + ballZ);
+    //
+    // //console.log("BEFORE:" + ballPosition);
+    // //from collision space to world space
+    // ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(88, 2, 0, 45, 0, 0, 5.0), ballPosition);
+    // //console.log("AFTER:" + ballPosition);
+    // graph[objectIndex.BALL].localMatrix[OBJECT_X] = ballPosition[0];
+    // graph[objectIndex.BALL].localMatrix[OBJECT_Y] = ballPosition[1];
+    // graph[objectIndex.BALL].localMatrix[OBJECT_Z] = ballPosition[2];
 
     checkTableMovements();
 }
@@ -278,20 +275,23 @@ function updateAmbientLightInfluence(val) {
 }
 
 function updateDecay(val) {
+
     if (val < 0.1)
         //no decay
         decay = 1.0;
     else if (val < 1.0)
-        decay = val*100;
+        decay = val * 100;
     else
         decay = 1000;
 }
 
 function updateLightType(val) {
+
     currentLightType = parseInt(val);
 }
 
 function updateSpecRefl(val) {
+
     currentSpecularReflection = parseInt(val);
 }
 

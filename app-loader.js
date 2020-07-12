@@ -48,6 +48,9 @@ async function init() {
     //bind glsl properties
     bindModelProperties();
 
+    //init the core engine
+    initCore();
+
     //call the main rendering function
     main();
 }
@@ -137,13 +140,13 @@ function buildSceneGraph() {
 
     let leftFlipperNode = new SceneNode();
     leftFlipperNode.name = "leftFlipperNode";
-    leftFlipperNode.drawInfo = loadModelProperties(objectIndex.LEFT_FLIPPER)
-    leftFlipperNode.localMatrix = localMatrices[objectIndex.LEFT_FLIPPER];
+    leftFlipperNode.drawInfo = loadModelProperties(objectIndex.LEFT_PADDLE)
+    leftFlipperNode.localMatrix = localMatrices[objectIndex.LEFT_PADDLE];
 
     let rightFlipperNode = new SceneNode();
     rightFlipperNode.name = "rightFlipperNode";
-    rightFlipperNode.drawInfo = loadModelProperties(objectIndex.RIGHT_FLIPPER)
-    rightFlipperNode.localMatrix = localMatrices[objectIndex.RIGHT_FLIPPER];
+    rightFlipperNode.drawInfo = loadModelProperties(objectIndex.RIGHT_PADDLE)
+    rightFlipperNode.localMatrix = localMatrices[objectIndex.RIGHT_PADDLE];
 
     let leftButtonNode = new SceneNode();
     leftButtonNode.name = "leftButtonNode";
@@ -178,6 +181,9 @@ function buildSceneGraph() {
     graph = [
         ballNode,
         bodyNode,
+        bumper1Node,
+        bumper2Node,
+        bumper3Node,
         dl1Node,
         dl2Node,
         dl3Node,
@@ -190,14 +196,11 @@ function buildSceneGraph() {
         dr4Node,
         dr5Node,
         dr6Node,
-        leftFlipperNode,
-        rightFlipperNode,
         leftButtonNode,
         rightButtonNode,
-        pullerNode,
-        bumper1Node,
-        bumper2Node,
-        bumper3Node
+        leftFlipperNode,
+        rightFlipperNode,
+        pullerNode
     ];
 
     //define relationships

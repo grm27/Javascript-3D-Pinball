@@ -53,7 +53,7 @@ class Ball {
 
     checkCollisionWithBoundaries(edge) {
         let startingPoint = this.position.sub(edge.start);
-        let edgeX = startingPoint.dot(edge.direction);
+        let edgeX = startingPoint.dotProduct(edge.direction);
         edgeX = Math.max(0, Math.min(edgeX, edge.length)); // clamp edgeAbscissa in [0, length]
         let impactPoint = edge.direction.scalarProduct(edgeX).add(edge.start);
 
@@ -62,9 +62,9 @@ class Ball {
 
     checkCollisionWithBumper(bumper) {
 
-        let bumperCenterToBall = this.position.sub(bumper.position);
+        let bumperCenterToBall = this.position.sub(bumper.pos);
         let bumperCenterToImpactPoint = bumperCenterToBall.getDir().scalarProduct(bumper.radius);
-        let impactPoint = bumperCenterToImpactPoint.add(bumper.position);
+        let impactPoint = bumperCenterToImpactPoint.add(bumper.pos);
 
         return this.checkCollision(impactPoint, new Vec2(0,0), bumper.shock, 0);
         //TODO MODIFY SCORE
@@ -73,10 +73,10 @@ class Ball {
     checkCollisionWithPaddle(paddle) {
 
         let relativeToHinge = this.position.sub(paddle.position);
-        let paddleAbscissa = relativeToHinge.dot(paddle.getDir());
+        let paddleAbscissa = relativeToHinge.dotProduct(paddle.getDir());
         paddleAbscissa = Math.max(0, Math.min(paddleAbscissa, paddle.size)); // clamp paddleAbscissa in [0, length]
         let impactPoint = paddle.getDir().scalarProduct(paddleAbscissa).add(paddle.position);
-        let impactPointVelocity = paddle.direction.normal().scalarProduct(paddleAbscissa * paddle.getPulse()); // apply rivals theorem: new basis rotating with paddle
+        let impactPointVelocity = paddle.getDir().normal().scalarProduct(paddleAbscissa * paddle.getPulse()); // apply rivals theorem: new basis rotating with paddle
 
         return this.checkCollision(impactPoint, impactPointVelocity, paddle.shock, PADDLE_ENERGY_TRANSFER_EFFICIENCY);
     }
@@ -98,8 +98,8 @@ class Ball {
         // adjust vel ~ shock and energy transfer efficiency only apply to the normal component of the relative vel
         let relativeVelocity = this.vel.sub(impactPointVelocity);
         let tangent = normal.normal(); // sounds dodgy but it's true
-        let velTangent = relativeVelocity.dot(tangent);
-        let velNormal = relativeVelocity.dot(normal);
+        let velTangent = relativeVelocity.dotProduct(tangent);
+        let velNormal = relativeVelocity.dotProduct(normal);
         velNormal *= shock;
         velNormal += 2 * impactPointVelocity.getModule() * energyTransferEfficiency;
         relativeVelocity = normal.scalarProduct(velNormal).add(tangent.scalarProduct(velTangent));

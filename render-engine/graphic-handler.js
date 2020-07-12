@@ -39,13 +39,14 @@ function draw() {
     resetPositions();
     manageLights();
     updateViewMatrix();
-    updateWorldMatrix();
+    updateWorldMatrices();
     graphRoot.updateWorldMatrix();
 
     let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
     graph.forEach(function (node) {
+
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
@@ -132,48 +133,17 @@ let ballX = 0;
 let ballY = 9;
 let ballZ = -8.5;
 
-function updateWorldMatrix() {
+function updateWorldMatrices() {
 
-    // if (rightArrowPressed) {
-    //     // ball.state.pos.x += 0.1;
-    //     ballX+=0.005;
-    // }
-    // if (leftArrowPressed) {
-    //     // ball.state.pos.x -= 0.1;
-    //     ballX-=0.005;
-    // }
+    //add one delta t to the world environment
+    step();
 
-    // if (rightArrowPressed) {
-    //     // ball.state.pos.y += 0.1;
-    //     ballY+=0.005;
-    // }
-    // if (leftArrowPressed) {
-    //     ballY-=0.005;
-    // }
-    //
-    // if (upArrowPressed) {
-    //     // ball.state.pos.y += 0.1;
-    //     ballZ+=0.005;
-    // }
-    // if (downArrowPressed) {
-    //     ballZ-=0.005;
-    // }
+    graph[objectIndex.PULLER].localMatrix = getPullerLocalMatrix(pullerPos);
+    graph[objectIndex.BALL].localMatrix = getBallLocalMatrix(ball.position.x, ball.position.y);
+    graph[objectIndex.LEFT_PADDLE].localMatrix = getLeftFlipperLocalMatrix(leftPaddle.getInclination());
+    graph[objectIndex.RIGHT_PADDLE].localMatrix = getRightFlipperLocalMatrix(leftPaddle.getInclination());
 
-
-    // let ballPosition = [ball.state.pos.x, ball.state.pos.y, 0, 1];
-    //
-    // console.log("X:" + ball.state.pos.x);
-    // console.log("Y:" + ball.state.pos.y);
-    // console.log("Z:" + ballZ);
-    //
-    // //console.log("BEFORE:" + ballPosition);
-    // //from collision space to world space
-    // ballPosition = utils.multiplyMatrixVector(utils.MakeWorld(88, 2, 0, 45, 0, 0, 5.0), ballPosition);
-    // //console.log("AFTER:" + ballPosition);
-    // graph[objectIndex.BALL].localMatrix[OBJECT_X] = ballPosition[0];
-    // graph[objectIndex.BALL].localMatrix[OBJECT_Y] = ballPosition[1];
-    // graph[objectIndex.BALL].localMatrix[OBJECT_Z] = ballPosition[2];
-
+    //update the world matrix of the table according to the given input
     checkTableMovements();
 }
 
@@ -182,7 +152,6 @@ function checkTableMovements() {
     let tableX = graphRoot.localMatrix[OBJECT_X];
     let tableY = graphRoot.localMatrix[OBJECT_Y];
     let tableZ = graphRoot.localMatrix[OBJECT_Z];
-
 
     if (wPressed) {
         if ((tableY + TABLE_STEP) < TABLE_MAX_Y) {
@@ -306,3 +275,36 @@ function updateSpecularColor(val) {
 function updateShader(val) {
     currShader = parseInt(val);
 }
+
+const elevation = 8.5335; // y
+const elevation_reference = -5.9728; // at which z the elevation was measured
+const slope = 0.11411241041; // tan(6.51 deg)
+
+function ballYgivenZ(z) {
+    return elevation + slope * (z - elevation_reference);
+}
+
+function ballCoordinates(physX, physY) {
+    let x = 2.2 - physX;
+    let z = physY - 6.7;
+    return [x, ballYgivenZ(z), z];
+}
+
+function getBallLocalMatrix(physX, physY) {
+    return utils.MakeWorld(...ballCoordinates(physX, physY), 0, 0, 0, 1);
+}
+
+function getLeftFlipperLocalMatrix(angle) {
+    let degrees = angle / Math.PI * 180;
+    return utils.MakeWorld(0.6906, 8.4032, -5.6357, -degrees, -3.24, -5.64, 1);
+}
+
+function getRightFlipperLocalMatrix(angle) {
+    let degrees = angle / Math.PI * 180;
+    return utils.MakeWorld(-1.307, 8.4032, -5.6357, -degrees, -3.24, -5.64, 1);
+}
+
+function getPullerLocalMatrix(run) {
+    return utils.MakeWorld(-2.5264, 8.3925, -7.1 - run, 0, -90, 0, 1);
+}
+

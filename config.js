@@ -72,8 +72,8 @@ const objectIndex = {
     DR6: 16,
     LEFT_BUTTON: 17,
     RIGHT_BUTTON: 18,
-    LEFT_FLIPPER: 19,
-    RIGHT_FLIPPER: 20,
+    LEFT_PADDLE: 19,
+    RIGHT_PADDLE: 20,
     PULLER: 21
 }
 

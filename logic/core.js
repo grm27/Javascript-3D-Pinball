@@ -1,6 +1,10 @@
 const FRAMERATE = 60;
 const SUBSTEPS = 6;
 
+
+const TABLE_WIDTH = 4.95;
+const TABLE_HEIGHT = 10.9;
+
 const BUMPER_RADIUS = 0.33;
 const BUMPER_SHOCK = -1.4;
 const BALL_RADIUS = 0.16;
@@ -8,6 +12,10 @@ const PULLER_RUN_MAX = .71;
 const PULLER_SPEED_CHARGE = 1.03;
 const PULLER_SPEED_DISCHARGE = -4.3;
 
+const GRAVITATIONAL_ACCELERATION = 4;
+const PADDLE_ENERGY_TRANSFER_EFFICIENCY = 0.4
+
+const WALL_RESTITUTION = -.5;
 
 const PADDLE_SIZE = 0.9;
 const PADDLE_SHOCK = -0.4;
@@ -28,14 +36,14 @@ let pulling = false;
 function initCore() {
 
     const LEFT = -0.15;
-    edges.push(new Edge(new Vec2(LEFT, 0), new Vec2(LEFT, BOARD_HEIGHT)));
-    edges.push(new Edge(new Vec2(LEFT, BOARD_HEIGHT), new Vec2(BOARD_WIDTH, BOARD_HEIGHT)));
-    edges.push(new Edge(new Vec2(BOARD_WIDTH, BOARD_HEIGHT), new Vec2(BOARD_WIDTH, 0)));
+    edges.push(new Edge(new Vec2(LEFT, 0), new Vec2(LEFT, TABLE_HEIGHT)));
+    edges.push(new Edge(new Vec2(LEFT, TABLE_HEIGHT), new Vec2(TABLE_HEIGHT, TABLE_HEIGHT)));
+    edges.push(new Edge(new Vec2(TABLE_HEIGHT, TABLE_HEIGHT), new Vec2(TABLE_HEIGHT, 0)));
 
     const SHELVES_HEIGHT = 1.22
     edges.push(new Edge(new Vec2(1.52, SHELVES_HEIGHT), new Vec2(0, SHELVES_HEIGHT)));
     edges.push(new Edge(new Vec2(1.52, SHELVES_HEIGHT), new Vec2(1.52, 0)));
-    edges.push(new Edge(new Vec2(3.5, SHELVES_HEIGHT), new Vec2(BOARD_WIDTH, SHELVES_HEIGHT)));
+    edges.push(new Edge(new Vec2(3.5, SHELVES_HEIGHT), new Vec2(TABLE_HEIGHT, SHELVES_HEIGHT)));
     edges.push(new Edge(new Vec2(3.5, SHELVES_HEIGHT), new Vec2(3.5, 0)));
 
     ball = new Ball(Ball.START_X, Ball.START_Y, BALL_RADIUS);
@@ -71,9 +79,9 @@ function step() {
     }
 
     if (pulling)
-        pullerPos = Math.min(PULLER_RUN_MAX, pullerRun + PULLER_SPEED_CHARGE / FRAMERATE);
+        pullerPos = Math.min(PULLER_RUN_MAX, pullerPos + PULLER_SPEED_CHARGE / FRAMERATE);
     else
-        pullerPos = Math.max(0, pullerRun + PULLER_SPEED_DISCHARGE / FRAMERATE);
+        pullerPos = Math.max(0, pullerPos + PULLER_SPEED_DISCHARGE / FRAMERATE);
 
 }
 

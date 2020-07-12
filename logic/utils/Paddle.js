@@ -4,6 +4,10 @@ class Paddle {
     static MAX_INCLINATION = 0.5236;
     static SWEEP_TIME = 0.12;
     static STEP = (Paddle.MAX_INCLINATION - Paddle.IDLE_INCLINATION) / Paddle.SWEEP_TIME;
+
+    active = false;
+    isMoving = false;
+    angleRatio = 0;
     
     constructor(position, side, shock, size) {
 
@@ -14,7 +18,7 @@ class Paddle {
     }
     
     getDir() {
-        return new Vec2(this.getInclination());
+        return Vec2.buildUnit(this.getInclination());
     }
 
     getEdge() {
@@ -46,8 +50,4 @@ class Paddle {
         }
         else this.isMoving = false;
     }
-
-    active = false;
-    isMoving = false;
-    angleRatio = 0;
 }

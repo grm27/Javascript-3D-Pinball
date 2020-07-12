@@ -5,7 +5,7 @@ class Vec2 {
         this.y = y;
     }
 
-    constructor(angle) {
+    static buildUnit(angle) {
         return new Vec2(Math.cos(angle), Math.sin(angle));
     }
 
@@ -17,24 +17,24 @@ class Vec2 {
         return Math.atan2(this.y, this.x);
     }
 
-    add(Vec2) {
-        return new Vec2(this.x + Vec2.x, this.y + Vec2.y);
+    add(v) {
+        return new Vec2(this.x + v.x, this.y + v.y);
     }
 
-    sub(Vec2) {
-        return this.add(Vec2.scalarProduct(-1));
+    sub(v) {
+        return this.add(v.scalarProduct(-1));
     }
 
     getDir() {
-        return new Vec2(this.getPhase());
+        return Vec2.buildUnit(this.getPhase());
     }
 
     scalarProduct(factor) {
         return new Vec2(factor * this.x, factor * this.y);
     }
 
-    dotProduct(Vec2) {
-        return this.x * Vec2.x + this.y * Vec2.y;
+    dotProduct(v) {
+        return this.x * v.x + this.y * v.y;
     }
 
     normal() {

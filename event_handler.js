@@ -81,10 +81,12 @@ function handleUp(e) {
     if (e.key === "e")
         ePressed = false;
 
-    leftPaddle.isMoving = !(e.key === "x");
-    rightPaddle.active = !(e.key === "n");
+    if (e.key === "x")
+        leftPaddle.isMoving = false;
+    if (e.key === "n")
+        rightPaddle.active = false;
     if (e.key === " ") {
-        pulling = !!ball.launch(pullerRun);
+        pulling = !!ball.throw(pullerPos);
     }
 }
 

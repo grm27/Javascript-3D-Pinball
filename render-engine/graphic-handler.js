@@ -30,7 +30,7 @@ function main() {
 
 function draw() {
 
-    // utils.resizeCanvasToDisplaySize(gl.canvas);
+    utils.resizeCanvasToDisplaySize(gl.canvas);
     gl.clearColor(0.0, 0.0, 0.0, 0.3);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.useProgram(programArray[currShader]);

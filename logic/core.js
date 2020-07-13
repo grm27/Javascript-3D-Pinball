@@ -21,6 +21,7 @@ const PADDLE_SIZE = 0.9;
 const PADDLE_SHOCK = -0.4;
 
 let score = 0;
+let bestScore = 0;
 let isOver = false;
 let lives = LIVES;
 let edges = [];
@@ -86,12 +87,15 @@ function step() {
         pullerPos = Math.max(0, pullerPos + PULLER_SPEED_DISCHARGE / FRAMERATE);
 
 }
-
+let bestScoreArr = ["0", "0", "0", "0", "0", "0"];
 function updateScore() {
     let scoreArr;
     if (!isOver) {
         score = score + 7;
+        if (score > bestScore)
+            bestScore = score;
         scoreArr = Array.from(String(score)).reverse();
+        bestScoreArr = Array.from(String(bestScore)).reverse();
     } else {
         score = 0;
         scoreArr = ["0", "0", "0", "0", "0", "0"];
@@ -103,7 +107,11 @@ function updateScore() {
     for (let i = 0; i < scoreArr.length; i++) {
         let digit = scoreArr[i];
         scoreMeshes[i].drawInfo.texCords = UVmap[digit];
-        scoreMeshes[i + 6].drawInfo.texCords = UVmap[digit];
+
+    }
+    for (let i = 0; i < bestScoreArr.length; i++) {
+        let bestDigit = bestScoreArr[i];
+        scoreMeshes[i + 6].drawInfo.texCords = UVmap[bestDigit];
     }
     bindModelProperties();
 }

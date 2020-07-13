@@ -1,6 +1,6 @@
 #version 300 es
 
-precision mediump float;
+precision highp float;
 
 in vec3 fsNormal;
 in vec3 fsPosition;
@@ -29,6 +29,7 @@ vec4 lightModel(int lt, vec3 pos) {
 
     if (lt == 1) { 			// Directional light
         nLightDir = - normalize(lightDirection);
+        lDim = 0.5;
     } else if (lt == 2) {	// Point light
         nLightDir = normalize(lightPosition - pos);
     } else if (lt == 3) {	// Point light (decay)

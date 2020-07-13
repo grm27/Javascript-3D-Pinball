@@ -53,10 +53,9 @@ class Ball {
                 //
             } else if (lives === 1) {
                 alert("you lose! you got " + score + " points");
-                score = 0;
                 isOver = true;
                 updateScore();
-                lives = 2;
+                lives = LIVES + 1;
                 this.vel = new Vec2(0, 0);
             }
         }

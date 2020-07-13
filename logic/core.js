@@ -1,7 +1,7 @@
 const FRAMERATE = 60;
 const SUBSTEPS = 6;
 
-
+const LIVES = 1;
 const TABLE_WIDTH = 4.95;
 const TABLE_HEIGHT = 10.9;
 
@@ -22,7 +22,7 @@ const PADDLE_SHOCK = -0.4;
 
 let score = 0;
 let isOver = false;
-let lives = 1;
+let lives = LIVES;
 let edges = [];
 let bumpers = [];
 let leftPaddle;
@@ -88,19 +88,23 @@ function step() {
 }
 
 function updateScore() {
-    let scoreArr = [];
+    let scoreArr;
     if (!isOver) {
         score = score + 7;
         scoreArr = Array.from(String(score), Number).reverse();
     } else {
+        score = 0;
         scoreArr = [0, 0, 0, 0, 0, 0];
         isOver = false;
     }
     let scoreMeshes = [graph[objectIndex.DR1], graph[objectIndex.DR2], graph[objectIndex.DR3],
-        graph[objectIndex.DR4], graph[objectIndex.DR5], graph[objectIndex.DR6]];
+        graph[objectIndex.DR4], graph[objectIndex.DR5], graph[objectIndex.DR6], graph[objectIndex.DL1],
+        graph[objectIndex.DL2],graph[objectIndex.DL3],graph[objectIndex.DL4],graph[objectIndex.DL5],
+        graph[objectIndex.DL6]];
     for (let i = 0; i < scoreArr.length; i++) {
         let digit = scoreArr[i];
         scoreMeshes[i].drawInfo.texCords = numUVs[digit];
+        scoreMeshes[i+6].drawInfo.texCords = numUVs[digit];
     }
     bindModelProperties();
 }

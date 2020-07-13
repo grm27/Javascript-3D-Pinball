@@ -91,20 +91,19 @@ function updateScore() {
     let scoreArr;
     if (!isOver) {
         score = score + 7;
-        scoreArr = Array.from(String(score), Number).reverse();
+        scoreArr = Array.from(String(score)).reverse();
     } else {
         score = 0;
-        scoreArr = [0, 0, 0, 0, 0, 0];
+        scoreArr = ["0", "0", "0", "0", "0", "0"];
         isOver = false;
     }
-    let scoreMeshes = [graph[objectIndex.DR1], graph[objectIndex.DR2], graph[objectIndex.DR3],
-        graph[objectIndex.DR4], graph[objectIndex.DR5], graph[objectIndex.DR6], graph[objectIndex.DL1],
-        graph[objectIndex.DL2],graph[objectIndex.DL3],graph[objectIndex.DL4],graph[objectIndex.DL5],
-        graph[objectIndex.DL6]];
+    let scoreMeshes = [];
+    for (let i = 5; i <= 16; i++)
+        scoreMeshes.push(graph[i])
     for (let i = 0; i < scoreArr.length; i++) {
         let digit = scoreArr[i];
-        scoreMeshes[i].drawInfo.texCords = numUVs[digit];
-        scoreMeshes[i+6].drawInfo.texCords = numUVs[digit];
+        scoreMeshes[i].drawInfo.texCords = UVmap[digit];
+        scoreMeshes[i + 6].drawInfo.texCords = UVmap[digit];
     }
     bindModelProperties();
 }

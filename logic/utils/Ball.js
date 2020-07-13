@@ -51,9 +51,12 @@ class Ball {
                 this.moving = false;
                 lives--;
                 //
-            } else if (lives === 1)
+            } else if (lives === 1) {
+                alert("you lose! you got " + score + " points");
                 score = 0;
-                this.vel = new Vec2(0,0);
+                lives = 2;
+                this.vel = new Vec2(0, 0);
+            }
         }
     }
 
@@ -63,7 +66,7 @@ class Ball {
         edgeX = Math.max(0, Math.min(edgeX, edge.length)); // clamp edgeAbscissa in [0, length]
         let impactPoint = edge.direction.scalarProduct(edgeX).add(edge.start);
 
-         return this.checkCollision(false, impactPoint, new Vec2(0,0), WALL_RESTITUTION, 0);
+        return this.checkCollision(false, impactPoint, new Vec2(0, 0), WALL_RESTITUTION, 0);
     }
 
     checkCollisionWithBumper(bumper) {
@@ -72,8 +75,7 @@ class Ball {
         let bumperCenterToImpactPoint = bumperCenterToBall.getDir().scalarProduct(bumper.radius);
         let impactPoint = bumperCenterToImpactPoint.add(bumper.pos);
 
-        return this.checkCollision(true, impactPoint, new Vec2(0,0), bumper.shock, 0);
-        //TODO MODIFY SCORE
+        return this.checkCollision(true, impactPoint, new Vec2(0, 0), bumper.shock, 0);
     }
 
     checkCollisionWithPaddle(paddle) {

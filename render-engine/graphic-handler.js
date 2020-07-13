@@ -204,6 +204,8 @@ function resetPositions() {
         graphRoot.localMatrix[OBJECT_X] = TABLE_X;
         graphRoot.localMatrix[OBJECT_Y] = TABLE_Y;
         graphRoot.localMatrix[OBJECT_Z] = TABLE_Z;
+
+        lightPosition[0] = 0.0;
     }
 }
 

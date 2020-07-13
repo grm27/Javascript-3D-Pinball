@@ -8,11 +8,11 @@ const TABLE_HEIGHT = 10.9;
 const BUMPER_RADIUS = 0.33;
 const BUMPER_SHOCK = -1.4;
 const BALL_RADIUS = 0.16;
-const PULLER_RUN_MAX = .71;
-const PULLER_SPEED_CHARGE = 1.03;
+const PULLER_RUN_MAX = .91;
+const PULLER_SPEED_CHARGE = 2.03;
 const PULLER_SPEED_DISCHARGE = -4.3;
 
-const GRAVITATIONAL_ACCELERATION = 4;
+const GRAVITATIONAL_ACCELERATION = 11;
 const PADDLE_ENERGY_TRANSFER_EFFICIENCY = 0.4
 
 const WALL_RESTITUTION = -.5;
@@ -21,8 +21,8 @@ const PADDLE_SIZE = 0.9;
 const PADDLE_SHOCK = -0.4;
 
 let score = 0;
-let lives = 3;
-
+let lives = 1;
+let isOver = false;
 let edges = [];
 let bumpers = [];
 let leftPaddle;
@@ -89,6 +89,13 @@ function step() {
 
 function updateScore() {
     score = score + 7;
-    console.log(score);
+    let scoreArr = Array.from(String(score), Number).reverse();
+    let scoreMeshes = [graph[objectIndex.DR1], graph[objectIndex.DR2], graph[objectIndex.DR3],
+        graph[objectIndex.DR4], graph[objectIndex.DR5], graph[objectIndex.DR6]];
+    for (let i = 0; i < scoreArr.length; i++) {
+        let digit = scoreArr[i];
+        scoreMeshes[i].drawInfo.texCords = numUVs[digit];
+    }
+    bindModelProperties();
 }
 

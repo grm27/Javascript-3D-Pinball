@@ -219,7 +219,7 @@ function loadModelProperties(index) {
         vertices: meshes[index].vertices,
         normals: meshes[index].vertexNormals,
         indices: meshes[index].indices,
-        texCords: meshes[index].textures
+        texCords: index >= 5 && index <= 16 ? numUVs[0] : meshes[index].textures
     }
 }
 

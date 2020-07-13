@@ -1,6 +1,6 @@
 class Ball {
 
-    static START_X =  4.6;
+    static START_X = 4.6;
     static START_Y = 2;
     static INIT_VEL = 14;
     static MAX_VEL = 28.8;
@@ -19,26 +19,31 @@ class Ball {
         }
     }
 
-    update(gravity, deltaT) {
-        const CENTER_SEEKING_FORCE = 0.4;
+    step(gravity, deltaT) {
         this.vel = this.vel.add(gravity.scalarProduct(deltaT));
-        
-        //TODO DELETE
-        if (this.position.x < 1.52 && this.moving)
-            this.vel = this.vel.add(new Vec2(CENTER_SEEKING_FORCE, 0).scalarProduct(deltaT));
-        else if (this.position.x > 3.5 && this.moving)
-            this.vel = this.vel.sub(new Vec2(CENTER_SEEKING_FORCE, 0).scalarProduct(deltaT));
 
-        if (this.vel.getModule() > Ball.MAX_VEL)
-            this.vel = this.vel.getDir().scalarProduct(Ball.MAX_VEL);
+        this.addFakeGravity(deltaT);
 
         this.position = this.position.add(this.vel.scalarProduct(deltaT));
 
         this.checkIfOver();
     }
-    
-    checkIfOver(){
-        
+
+    addFakeGravity(deltaT) {
+
+        let fakeGravity;
+
+        if (this.position.x < 1.52 && this.moving)
+            fakeGravity = new Vec2(0.3, 0).scalarProduct(deltaT);
+        else if (this.position.x > 3.5 && this.moving)
+            fakeGravity = new Vec2(-0.3, 0).scalarProduct(deltaT);
+        else return;
+
+        this.vel = this.vel.add(fakeGravity);
+    }
+
+    checkIfOver() {
+
         if (this.position.y < -2 * this.radius) {
             if (lives > 1) {
                 this.position = new Vec2(Ball.START_X, Ball.START_Y);
@@ -47,7 +52,7 @@ class Ball {
                 //
             } else if (lives == 1)
                 //LOOSEE
-                this.vel = new Vec2(0,0);
+                this.vel = new Vec2(0, 0);
         }
     }
 
@@ -57,7 +62,7 @@ class Ball {
         edgeX = Math.max(0, Math.min(edgeX, edge.length)); // clamp edgeAbscissa in [0, length]
         let impactPoint = edge.direction.scalarProduct(edgeX).add(edge.start);
 
-        return this.checkCollision(impactPoint, new Vec2(0,0), WALL_RESTITUTION, 0);
+        return this.checkCollision(impactPoint, new Vec2(0, 0), WALL_RESTITUTION, 0);
     }
 
     checkCollisionWithBumper(bumper) {
@@ -66,7 +71,7 @@ class Ball {
         let bumperCenterToImpactPoint = bumperCenterToBall.getDir().scalarProduct(bumper.radius);
         let impactPoint = bumperCenterToImpactPoint.add(bumper.pos);
 
-        return this.checkCollision(impactPoint, new Vec2(0,0), bumper.shock, 0);
+        return this.checkCollision(impactPoint, new Vec2(0, 0), bumper.shock, 0);
         //TODO MODIFY SCORE
     }
 

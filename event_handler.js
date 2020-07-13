@@ -39,7 +39,7 @@ function handleDown(e) {
     ePressed = e.key === "e";
 
 
-    leftPaddle.isMoving = e.key === "x";
+    leftPaddle.active = e.key === "x";
     rightPaddle.active = e.key === "n";
     pulling = e.key === " ";
 }
@@ -82,7 +82,7 @@ function handleUp(e) {
         ePressed = false;
 
     if (e.key === "x")
-        leftPaddle.isMoving = false;
+        leftPaddle.active = false;
     if (e.key === "n")
         rightPaddle.active = false;
     if (e.key === " ") {

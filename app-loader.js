@@ -71,7 +71,6 @@ function buildSceneGraph() {
     bodyNode.name = "body";
     bodyNode.drawInfo = loadModelProperties(objectIndex.BODY);
     bodyNode.localMatrix = localMatrices[objectIndex.BODY];
-    bodyNode.localMatrix[10] = -bodyNode.localMatrix[10];
 
     let ballNode = new SceneNode();
     ballNode.name = "ballNode";

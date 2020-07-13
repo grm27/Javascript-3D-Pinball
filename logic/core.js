@@ -37,8 +37,8 @@ function initCore() {
 
     const LEFT = -0.15;
     edges.push(new Edge(new Vec2(LEFT, 0), new Vec2(LEFT, TABLE_HEIGHT)));
-    edges.push(new Edge(new Vec2(LEFT, TABLE_HEIGHT), new Vec2(TABLE_HEIGHT, TABLE_HEIGHT)));
-    edges.push(new Edge(new Vec2(TABLE_HEIGHT, TABLE_HEIGHT), new Vec2(TABLE_HEIGHT, 0)));
+    edges.push(new Edge(new Vec2(LEFT, TABLE_HEIGHT), new Vec2(TABLE_WIDTH, TABLE_HEIGHT)));
+    edges.push(new Edge(new Vec2(TABLE_WIDTH, TABLE_HEIGHT), new Vec2(TABLE_WIDTH, 0)));
 
     const SHELVES_HEIGHT = 1.22
     edges.push(new Edge(new Vec2(1.52, SHELVES_HEIGHT), new Vec2(0, SHELVES_HEIGHT)));
@@ -60,8 +60,10 @@ function initCore() {
 let dt = 1 / FRAMERATE / SUBSTEPS;
 
 function step() {
+
     for (let i = 0; i < SUBSTEPS; i++) {
-        ball.update(gVector, dt);
+
+        ball.step(gVector, dt);
 
         edges.forEach(function (edge) {
             ball.checkCollisionWithBoundaries(edge);
@@ -71,10 +73,10 @@ function step() {
             ball.checkCollisionWithBumper(bumper);
         })
 
-        rightPaddle.update(dt);
+        rightPaddle.step(dt);
         ball.checkCollisionWithPaddle(rightPaddle);
 
-        leftPaddle.update(dt);
+        leftPaddle.step(dt);
         ball.checkCollisionWithPaddle(leftPaddle);
     }
 

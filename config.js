@@ -9,10 +9,10 @@ const ASSETS_TEXTURE_DIR = "assets/StarWarsPinball.png";
 
 //Camera constants
 const CAMERA_X = 0.0;
-const CAMERA_Y = 0.0;
-const CAMERA_Z = 0.0;
-const CAMERA_ELEVATION = 0.0;
-const CAMERA_ANGLE = 0.0;
+const CAMERA_Y = 15;
+const CAMERA_Z = -7.3;
+const CAMERA_ELEVATION = -54;
+const CAMERA_ANGLE = 180.0;
 
 const CAM_MAX_X = 10.0;
 const CAM_MAX_Y = 15.0;
@@ -35,8 +35,8 @@ const TABLE_MIN_Y = -100.0;
 const TABLE_MIN_Z = -100.0;
 
 const TABLE_X = 0.0;
-const TABLE_Y = -12.0;
-const TABLE_Z = -12.0;
+const TABLE_Y = 0.0;
+const TABLE_Z = 0.0;
 const TABLE_MAX_ELEVATION = 90.0;
 const TABLE_MAX_ANGLE = 90.0;
 const TABLE_MIN_ELEVATION = -90.0;
@@ -106,7 +106,7 @@ const modelSources = [
 //same order of model sources and object index
 const localMatrices = [
     utils.MakeWorld(-0.30053, 8.5335, -5.9728, 0.0, 0.0, 0.0, 1.0),
-    utils.MakeWorld(TABLE_X, TABLE_Y, TABLE_Z, 0.0, 0.0, 0.0, 1.05),
+    utils.MakeWorld(TABLE_X, TABLE_Y, TABLE_Z, 0.0, 0.0, 0.0, 1.0),
     utils.MakeWorld(1.1819, 9.1362, 0.020626, 0.0, -6.51, 0.0, 1.0),
     utils.MakeWorld(-1.5055, 9.1362, 0.020626, 0.0, -6.51, 0.0, 1.0),
     utils.MakeWorld(-0.11626, 9.1362, 0.020626, 0.0, -6.51, 0.0, 1.0),

@@ -40,9 +40,10 @@ function draw() {
     manageLights();
     updateViewMatrix();
     updateWorldMatrices();
+
     graphRoot.updateWorldMatrix();
 
-    let perspectiveMatrix = utils.MakePerspective(120, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
+    let perspectiveMatrix = utils.MakePerspective(90, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
 
     graph.forEach(function (node) {
@@ -141,7 +142,7 @@ function updateWorldMatrices() {
     graph[objectIndex.PULLER].localMatrix = getPullerLocalMatrix(pullerPos);
     graph[objectIndex.BALL].localMatrix = getBallLocalMatrix(ball.position.x, ball.position.y);
     graph[objectIndex.LEFT_PADDLE].localMatrix = getLeftFlipperLocalMatrix(leftPaddle.getInclination());
-    graph[objectIndex.RIGHT_PADDLE].localMatrix = getRightFlipperLocalMatrix(leftPaddle.getInclination());
+    graph[objectIndex.RIGHT_PADDLE].localMatrix = getRightFlipperLocalMatrix(rightPaddle.getInclination());
 
     //update the world matrix of the table according to the given input
     checkTableMovements();
@@ -296,15 +297,15 @@ function getBallLocalMatrix(physX, physY) {
 
 function getLeftFlipperLocalMatrix(angle) {
     let degrees = angle / Math.PI * 180;
-    return utils.MakeWorld(0.6906, 8.4032, -5.6357, -degrees, -3.24, -5.64, 1);
+    return utils.MakeWorld(0.6906, 8.4032, -5.6357,-3.24, -degrees, -5.64, 1);
 }
 
 function getRightFlipperLocalMatrix(angle) {
     let degrees = angle / Math.PI * 180;
-    return utils.MakeWorld(-1.307, 8.4032, -5.6357, -degrees, -3.24, -5.64, 1);
+    return utils.MakeWorld(-1.307, 8.4032, -5.6357, -3.24, -degrees,  -5.64, 1);
 }
 
 function getPullerLocalMatrix(run) {
-    return utils.MakeWorld(-2.5264, 8.3925, -7.1 - run, 0, -90, 0, 1);
+    return utils.MakeWorld(-2.5264, 8.3925, -7.1 - run, -90,0,  0, 1);
 }
 

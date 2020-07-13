@@ -26,14 +26,43 @@
     Your browser does not support the HTML5 canvas element.
 </canvas>
 <div id="legend"
-     style="position: absolute; z-index: 1; left: 40px; top: 400px; width:300px; height:165px; background-color: white; border-style: dashed; border-color: blue; opacity: 0.7; padding: 5px 10px 5px 10px; overflow:auto">
+     style="position: absolute; z-index: 1; left: 0px; bottom: 0px; width:200px; height:100%; background-color: white; border-style: dashed; border-color: blue; opacity: 0.7; padding: 5px 10px 5px 10px; overflow:auto">
     <p style="font-family: Courier New">
-        <b>GUI above canvas</b>
+        <b>Game</b>
     <ul style="font-family: Courier New">
-        <li>Position:absolute</li>
-        <li>z-index:1</li>
+        <li>N: RIGHT PADDLE</li>
+        <li>X: LEFT PADDLE</li>
+        <li>SPACE BAR: LAUNCH</li>
+    </ul>
+    <p style="font-family: Courier New">
+        <b>Table movements</b>
+    <ul style="font-family: Courier New">
+        <li>W: Y++</li>
+        <li>S: Y--</li>
+        <li>A: X--</li>
+        <li>D: X++</li>
+        <li>Q: Z++</li>
+        <li>E: Z--</li>
+    </ul>
+    <p style="font-family: Courier New">
+        <b>Light X:</b>
+    <ul style="font-family: Courier New">
+        <li>V: <--</li>
+        <li>B: --></li>
+    </ul>
+    <p style="font-family: Courier New">
+        <b>Camera movements</b>
+    <ul style="font-family: Courier New">
+        <li>U: ELEVATION++</li>
+        <li>J: ELEVATION--</li>
+        <li>K: ANGLE++</li>
+        <li>H: ANGLE--</li>
     </ul>
     </p>
+    <p style="font-family: Courier New">
+        <b>R:</b> RESET PARAMETERS
+    </p>
+
 </div>
 <div style="position: absolute; z-index: 1; right: 0px; top: 0px; width:200px; height: 100%; background-color: white; border-style: dashed; border-color: blue; opacity: 0.7; padding: 5px 10px 5px 10px; overflow:auto">
 
@@ -42,7 +71,7 @@
     <form>
         <input type="radio" name="light2" id="yesl1" onchange="updateShader(this.value);" value="0"
                checked> Per Vertex <br/>
-        <input type="radio" name="light2" onchange="updateShader(this.value);" value="1"> Per Pixel  <br/>
+        <input type="radio" name="light2" onchange="updateShader(this.value);" value="1"> Per Pixel <br/>
     </form>
     <p><b> Light Decay </b></p>
     <div id="slider1"> 1
@@ -50,7 +79,7 @@
                onchange="updateDecay(this.value);"/> 0 <br/>
     </div>
 
-    <p><b>  Specular Color </b></p>
+    <p><b> Specular Color </b></p>
     <p>
         <input id="colorPicker3" type="color" value="#ffff00" onchange="updateSpecularColor(this.value);"/>
     </p>
@@ -62,11 +91,11 @@
         <option value="4">Spot</option>
         <option value="5" selected>No Light</option>
     </select>
-    <p><b>  Light Color </b></p>
+    <p><b> Light Color </b></p>
     <p>
         <input id="colorPicker2" type="color" value="#ffffff" onchange="updateLightColor(this.value);"/>
     </p>
-    <p><b>  Ambient Light Color </b></p>
+    <p><b> Ambient Light Color </b></p>
     <p>
         <input id="colorPicker" type="color" value="#000000" onchange="updateAmbientLightColor(this.value);"/>
     </p>

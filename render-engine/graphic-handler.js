@@ -5,23 +5,24 @@ let camera_elevation = CAMERA_ELEVATION;
 let camera_angle = CAMERA_ANGLE;
 
 // Parameters for light definition (directional light)
-var dirLightAlpha = -utils.degToRad(60);
-var dirLightBeta = -utils.degToRad(120);
+let dirLightAlpha = -utils.degToRad(40);
+let dirLightBeta = -utils.degToRad(40);
 
-var lightDirection = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
+let lightDirection = [Math.cos(dirLightAlpha) * Math.cos(dirLightBeta),
     Math.sin(dirLightAlpha),
     Math.cos(dirLightAlpha) * Math.sin(dirLightBeta),
 ];
-var decay = 1;
-var specularColor = [1.0, 1.0, 0.0, 1.0];
-var diffuseColor = [0.0, 0.0, 1.0, 1.0];
-var lightPosition = [0.0, 10.0, 0.0];
-var ambientLightColor = [0.0, 0.0, 0.0, 1.0];
-var lightColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
-var ambientLightInfluence = 0.0;
-var currentLightType = 5;
-var currentSpecularReflection = 1;
-var objectSpecularPower = 20.0;
+
+let decay = 1;
+let specularColor = [1.0, 1.0, 0.0, 1.0];
+let diffuseColor = [0.0, 0.0, 1.0, 1.0];
+let lightPosition = [0.0, 10.0, 0.0];
+let ambientLightColor = [0.0, 0.0, 0.0, 1.0];
+let lightColor = new Float32Array([1.0, 1.0, 1.0, 1.0]);
+let ambientLightInfluence = 0.0;
+let currentLightType = 5;
+let currentSpecularReflection = 1;
+let objectSpecularPower = 20.0;
 
 function main() {
 
@@ -130,10 +131,6 @@ function updateViewMatrix() {
 
 }
 
-let ballX = 0;
-let ballY = 9;
-let ballZ = -8.5;
-
 function updateWorldMatrices() {
 
     //add one delta t to the world environment
@@ -210,6 +207,7 @@ function resetPositions() {
 }
 
 function manageLights() {
+
     if (vPressed && currentLightType !== 5) {
         lightPosition[0] += 1.0;
     }
@@ -268,6 +266,7 @@ function updateSpecRefl(val) {
 }
 
 function updateSpecularColor(val) {
+
     val = val.replace('#', '');
     specularColor[0] = parseInt(val.substring(0, 2), 16) / 255;
     specularColor[1] = parseInt(val.substring(2, 4), 16) / 255;
@@ -276,38 +275,35 @@ function updateSpecularColor(val) {
 }
 
 function updateShader(val) {
+
     currShader = parseInt(val);
 }
 
 const elevation = 8.5335; // y
 const elevation_reference = -5.9728; // at which z the elevation was measured
-const slope = 0.11411241041; // tan(6.51 deg)
+const slope = 0.11411241; // tan(6.51 deg)
 
 function ballYgivenZ(z) {
     return elevation + slope * (z - elevation_reference);
 }
 
-function ballCoordinates(physX, physY) {
+function getBallLocalMatrix(physX, physY) {
     let x = 2.2 - physX;
     let z = physY - 6.7;
-    return [x, ballYgivenZ(z), z];
-}
-
-function getBallLocalMatrix(physX, physY) {
-    return utils.MakeWorld(...ballCoordinates(physX, physY), 0, 0, 0, 1);
+    return utils.MakeWorld(x, ballYgivenZ(z), z, 0, 0, 0, 1);
 }
 
 function getLeftFlipperLocalMatrix(angle) {
     let degrees = angle / Math.PI * 180;
-    return utils.MakeWorld(0.6906, 8.4032, -5.6357,-3.24, -degrees, -5.64, 1);
+    return utils.MakeWorld(0.6906, 8.4032, -5.6357, -3.24, -degrees, -5.64, 1);
 }
 
 function getRightFlipperLocalMatrix(angle) {
     let degrees = angle / Math.PI * 180;
-    return utils.MakeWorld(-1.307, 8.4032, -5.6357, -3.24, -degrees,  -5.64, 1);
+    return utils.MakeWorld(-1.307, 8.4032, -5.6357, -3.24, -degrees, -5.64, 1);
 }
 
 function getPullerLocalMatrix(run) {
-    return utils.MakeWorld(-2.5264, 8.3925, -7.1 - run, -90,0,  0, 1);
+    return utils.MakeWorld(-2.5264, 8.3925, -7.1 - run, -90, 0, 0, 1);
 }
 

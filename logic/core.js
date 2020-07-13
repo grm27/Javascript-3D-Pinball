@@ -89,7 +89,9 @@ function step() {
 }
 let bestScoreArr = ["0", "0", "0", "0", "0", "0"];
 function updateScore() {
+
     let scoreArr;
+
     if (!isOver) {
         score = score + 7;
         if (score > bestScore)
@@ -101,9 +103,11 @@ function updateScore() {
         scoreArr = ["0", "0", "0", "0", "0", "0"];
         isOver = false;
     }
+
     let scoreMeshes = [];
     for (let i = 5; i <= 16; i++)
         scoreMeshes.push(graph[i])
+
     for (let i = 0; i < scoreArr.length; i++) {
         let digit = scoreArr[i];
         scoreMeshes[i].drawInfo.texCords = UVmap[digit];
@@ -113,6 +117,7 @@ function updateScore() {
         let bestDigit = bestScoreArr[i];
         scoreMeshes[i + 6].drawInfo.texCords = UVmap[bestDigit];
     }
+
     bindModelProperties();
 }
 

@@ -8,6 +8,7 @@ uniform sampler2D u_texture;
 uniform vec4 mDiffColor;
 in vec4 goureaudDiffuseAndAmbient;
 in vec4 goureaudSpecular;
+
 void main() {
   //float textureInfluence = 1.0;
   //vec4 diffuseTextureColorMixture = mDiffColor * (1.0 - textureInfluence) + texture(u_texture, uvFS) * textureInfluence ;

@@ -20,6 +20,7 @@ class Ball {
     }
 
     step(gravity, deltaT) {
+
         this.vel = this.vel.add(gravity.scalarProduct(deltaT));
 
         this.addFakeGravity(deltaT);
@@ -33,9 +34,9 @@ class Ball {
 
         let fakeGravity;
 
-        if (this.position.x < 1.52 && this.moving)
+        if (this.position.x < 1.50 && this.moving)
             fakeGravity = new Vec2(0.3, 0).scalarProduct(deltaT);
-        else if (this.position.x > 3.5 && this.moving)
+        else if (this.position.x > 3.3 && this.moving)
             fakeGravity = new Vec2(-0.3, 0).scalarProduct(deltaT);
         else return;
 

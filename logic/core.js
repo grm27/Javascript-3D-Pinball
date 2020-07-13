@@ -21,8 +21,8 @@ const PADDLE_SIZE = 0.9;
 const PADDLE_SHOCK = -0.4;
 
 let score = 0;
-let lives = 1;
 let isOver = false;
+let lives = 1;
 let edges = [];
 let bumpers = [];
 let leftPaddle;
@@ -88,8 +88,14 @@ function step() {
 }
 
 function updateScore() {
-    score = score + 7;
-    let scoreArr = Array.from(String(score), Number).reverse();
+    let scoreArr = [];
+    if (!isOver) {
+        score = score + 7;
+        scoreArr = Array.from(String(score), Number).reverse();
+    } else {
+        scoreArr = [0, 0, 0, 0, 0, 0];
+        isOver = false;
+    }
     let scoreMeshes = [graph[objectIndex.DR1], graph[objectIndex.DR2], graph[objectIndex.DR3],
         graph[objectIndex.DR4], graph[objectIndex.DR5], graph[objectIndex.DR6]];
     for (let i = 0; i < scoreArr.length; i++) {

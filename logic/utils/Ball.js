@@ -50,9 +50,9 @@ class Ball {
                 this.moving = false;
                 lives--;
                 //
-            } else if (lives == 1)
-                //LOOSEE
-                this.vel = new Vec2(0, 0);
+            } else if (lives === 1)
+                score = 0;
+                this.vel = new Vec2(0,0);
         }
     }
 
@@ -62,7 +62,7 @@ class Ball {
         edgeX = Math.max(0, Math.min(edgeX, edge.length)); // clamp edgeAbscissa in [0, length]
         let impactPoint = edge.direction.scalarProduct(edgeX).add(edge.start);
 
-        return this.checkCollision(impactPoint, new Vec2(0, 0), WALL_RESTITUTION, 0);
+         return this.checkCollision(false, impactPoint, new Vec2(0,0), WALL_RESTITUTION, 0);
     }
 
     checkCollisionWithBumper(bumper) {
@@ -71,7 +71,7 @@ class Ball {
         let bumperCenterToImpactPoint = bumperCenterToBall.getDir().scalarProduct(bumper.radius);
         let impactPoint = bumperCenterToImpactPoint.add(bumper.pos);
 
-        return this.checkCollision(impactPoint, new Vec2(0, 0), bumper.shock, 0);
+        return this.checkCollision(true, impactPoint, new Vec2(0,0), bumper.shock, 0);
         //TODO MODIFY SCORE
     }
 
@@ -83,16 +83,17 @@ class Ball {
         let impactPoint = paddle.getDir().scalarProduct(paddleAbscissa).add(paddle.position);
         let impactPointVelocity = paddle.getDir().normal().scalarProduct(paddleAbscissa * paddle.getPulse()); // apply rivals theorem: new basis rotating with paddle
 
-        return this.checkCollision(impactPoint, impactPointVelocity, paddle.shock, PADDLE_ENERGY_TRANSFER_EFFICIENCY);
+        return this.checkCollision(false, impactPoint, impactPointVelocity, paddle.shock, PADDLE_ENERGY_TRANSFER_EFFICIENCY);
     }
 
-    checkCollision(impactPoint, impactPointVelocity, shock, energyTransferEfficiency) {
+    checkCollision(isBumper, impactPoint, impactPointVelocity, shock, energyTransferEfficiency) {
         let relativePosition = this.position.sub(impactPoint);
         let distance = relativePosition.getModule();
 
         if (distance >= this.radius)
             return false;
-
+        if (isBumper)
+            updateScore();
         // "bounce" the ball out of the surface along a line connecting the impact point to the center of the ball (i.e. normal to the surface)
         let normal = relativePosition.getDir();
         let penetration = this.radius - distance;

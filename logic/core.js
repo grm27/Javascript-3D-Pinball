@@ -85,3 +85,8 @@ function step() {
 
 }
 
+function updateScore() {
+    score = score + 7;
+    console.log(score);
+}
+

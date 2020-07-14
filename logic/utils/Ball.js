@@ -3,7 +3,6 @@ class Ball {
     static START_X = 4.6;
     static START_Y = 2;
     static INIT_VEL = 14;
-    static MAX_VEL = 28.8;
 
     constructor(x, y, radius) {
         this.position = new Vec2(x, y);
@@ -27,7 +26,7 @@ class Ball {
 
         this.position = this.position.add(this.vel.scalarProduct(deltaT));
 
-        this.checkIfOver();
+        checkIfOver(this);
     }
 
     addFakeGravity(deltaT) {
@@ -41,24 +40,6 @@ class Ball {
         else return;
 
         this.vel = this.vel.add(fakeGravity);
-    }
-
-    checkIfOver() {
-
-        if (this.position.y < -2 * this.radius) {
-            if (lives > 1) {
-                this.position = new Vec2(Ball.START_X, Ball.START_Y);
-                this.moving = false;
-                lives--;
-                //
-            } else if (lives === 1) {
-                alert("you lose! you got " + score + " points");
-                isOver = true;
-                updateScore();
-                lives = LIVES + 1;
-                this.vel = new Vec2(0, 0);
-            }
-        }
     }
 
     checkCollisionWithBoundaries(edge) {

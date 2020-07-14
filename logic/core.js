@@ -121,3 +121,22 @@ function updateScore() {
     bindModelProperties();
 }
 
+function checkIfOver(ball) {
+
+    if (ball.position.y < -2 * ball.radius) {
+        if (lives > 1) {
+            ball.position = new Vec2(Ball.START_X, Ball.START_Y);
+            ball.moving = false;
+            lives--;
+            //
+        } else if (lives === 1) {
+            let phrase = score >= bestScore ? ", BEST RECORD!" : "";
+            alert("you lose! you got " + score + " points" + phrase);
+            isOver = true;
+            updateScore();
+            lives = LIVES + 1;
+            ball.vel = new Vec2(0, 0);
+        }
+    }
+}
+

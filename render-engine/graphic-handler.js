@@ -36,13 +36,15 @@ function draw() {
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     gl.useProgram(programArray[currShader]);
     glslLocations = loadGlslProperties();
+
     //update view matrix intercepting keyboard events
     resetPositions();
-    manageLights();
-    updateViewMatrix();
-    updateWorldMatrices();
 
-    graphRoot.updateWorldMatrix();
+    manageLights();
+
+    updateViewMatrix();
+
+    updateWorldMatrices();
 
     let perspectiveMatrix = utils.MakePerspective(90, gl.canvas.width / gl.canvas.height, 0.1, 100.0);
     let viewMatrix = utils.MakeView(camera_x, camera_y, camera_z, camera_elevation, camera_angle);
@@ -134,15 +136,20 @@ function updateViewMatrix() {
 function updateWorldMatrices() {
 
     //add one delta t to the world environment
-    step();
+    worldStep();
 
-    graph[objectIndex.PULLER].localMatrix = getPullerLocalMatrix(pullerPos);
+    graph[objectIndex.PULLER].localMatrix = utils.MakeWorld(-2.5264, 8.3925, -7.1 - pullerPos, -90, 0, 0, 1);
     graph[objectIndex.BALL].localMatrix = getBallLocalMatrix(ball.position.x, ball.position.y);
-    graph[objectIndex.LEFT_PADDLE].localMatrix = getLeftFlipperLocalMatrix(leftPaddle.getInclination());
-    graph[objectIndex.RIGHT_PADDLE].localMatrix = getRightFlipperLocalMatrix(rightPaddle.getInclination());
+
+    let paddleMatrices = getWorldPaddlePositions();
+    graph[objectIndex.LEFT_PADDLE].localMatrix = paddleMatrices.left;
+    graph[objectIndex.RIGHT_PADDLE].localMatrix = paddleMatrices.right;
 
     //update the world matrix of the table according to the given input
     checkTableMovements();
+
+    //update all the world matrices
+    graphRoot.updateWorldMatrix();
 }
 
 function checkTableMovements() {
@@ -283,27 +290,18 @@ const elevation = 8.5335; // y
 const elevation_reference = -5.9728; // at which z the elevation was measured
 const slope = 0.11411241; // tan(6.51 deg)
 
-function ballYgivenZ(z) {
-    return elevation + slope * (z - elevation_reference);
-}
-
 function getBallLocalMatrix(physX, physY) {
     let x = 2.2 - physX;
     let z = physY - 6.7;
-    return utils.MakeWorld(x, ballYgivenZ(z), z, 0, 0, 0, 1);
+    let y = elevation + slope * (z - elevation_reference);
+    return utils.MakeWorld(x, y, z, 0, 0, 0, 1);
 }
 
-function getLeftFlipperLocalMatrix(angle) {
-    let degrees = angle / Math.PI * 180;
-    return utils.MakeWorld(0.6906, 8.4032, -5.6357, -3.24, -degrees, -5.64, 1);
-}
+function getWorldPaddlePositions() {
 
-function getRightFlipperLocalMatrix(angle) {
-    let degrees = angle / Math.PI * 180;
-    return utils.MakeWorld(-1.307, 8.4032, -5.6357, -3.24, -degrees, -5.64, 1);
-}
-
-function getPullerLocalMatrix(run) {
-    return utils.MakeWorld(-2.5264, 8.3925, -7.1 - run, -90, 0, 0, 1);
+    return {
+        left: utils.MakeWorld(0.6906, 8.4032, -5.6357, -3.24, -(leftPaddle.getInclination() / Math.PI * 180), -5.64, 1),
+        right: utils.MakeWorld(-1.307, 8.4032, -5.6357, -3.24, -(rightPaddle.getInclination() / Math.PI * 180), -5.64, 1)
+    }
 }
 

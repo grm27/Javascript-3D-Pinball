@@ -1,12 +1,8 @@
 class Paddle {
 
-    static IDLE_INCLINATION = -0.5236;
-    static MAX_INCLINATION = 0.5236;
+    static IDLE_INCLINATION = -0.523;
+    static MAX_INCLINATION = 0.524;
     static STEP = (Paddle.MAX_INCLINATION - Paddle.IDLE_INCLINATION) / 0.10;
-
-    active = false;
-    isMoving = false;
-    angleRatio = 0;
 
     constructor(position, side, shock, size) {
 
@@ -21,7 +17,7 @@ class Paddle {
     }
 
     getInclination() {
-        let angle = Paddle.IDLE_INCLINATION + (Paddle.MAX_INCLINATION - Paddle.IDLE_INCLINATION) * this.angleRatio;
+        let angle = Paddle.IDLE_INCLINATION + (Paddle.MAX_INCLINATION - Paddle.IDLE_INCLINATION) * this.anglePerc;
         if (this.side === "left")
             return angle;
         else
@@ -40,11 +36,23 @@ class Paddle {
     }
 
     step(deltaT) {
-        let pulseDirection = this.active ? 1 : -1;
-        let rawAngleRatio = this.angleRatio + pulseDirection * deltaT / 0.10;
-        if (rawAngleRatio >= 0 && rawAngleRatio <= 1) {
-            this.angleRatio = rawAngleRatio;
+        let deltaTeta;
+
+        if (this.active) {
+            deltaTeta = deltaT / 0.10;
+        } else
+            deltaTeta = -deltaT / 0.10;
+
+        let anglePer = this.anglePerc + deltaTeta;
+
+        if (anglePer >= 0 && anglePer <= 1) {
+            this.anglePerc = anglePer;
             this.isMoving = true;
-        } else this.isMoving = false;
+        } else
+            this.isMoving = false;
     }
+
+    active = false;
+    isMoving = false;
+    anglePerc = 0;
 }

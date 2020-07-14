@@ -12,7 +12,7 @@ const PULLER_RUN_MAX = .91;
 const PULLER_SPEED_CHARGE = 2.03;
 const PULLER_SPEED_DISCHARGE = -4.3;
 
-const GRAVITATIONAL_ACCELERATION = 11;
+const GRAVITATIONAL_ACCELERATION = 6;
 const PADDLE_ENERGY_TRANSFER_EFFICIENCY = 0.4
 
 const WALL_RESTITUTION = -.5;
@@ -32,7 +32,12 @@ let ball;
 let gVector;
 let pullerPos = 0;
 let pulling = false;
-
+let gravity = {
+    "easy": GRAVITATIONAL_ACCELERATION,
+    "hard": GRAVITATIONAL_ACCELERATION + 10,
+    "incremental": GRAVITATIONAL_ACCELERATION,
+}
+let difficulty = "easy";
 
 function initCore() {
 
@@ -48,7 +53,7 @@ function initCore() {
     edges.push(new Edge(new Vec2(3.5, SHELVES_HEIGHT), new Vec2(3.5, 0)));
 
     ball = new Ball(Ball.START_X, Ball.START_Y, BALL_RADIUS);
-    gVector = new Vec2(0, -GRAVITATIONAL_ACCELERATION);
+    gVector = new Vec2(0, -gravity[difficulty]);
     bumpers.push(new Bumper(new Vec2(1, 6.7), BUMPER_RADIUS, BUMPER_SHOCK));
     bumpers.push(new Bumper(new Vec2(2.3, 6.7), BUMPER_RADIUS, BUMPER_SHOCK));
     bumpers.push(new Bumper(new Vec2(3.7, 6.7), BUMPER_RADIUS, BUMPER_SHOCK));
@@ -61,7 +66,7 @@ function initCore() {
 let dt = 1 / FRAMERATE / SUBSTEPS;
 
 function step() {
-
+    gVector = new Vec2(0, -gravity[difficulty]);
     for (let i = 0; i < SUBSTEPS; i++) {
 
         ball.step(gVector, dt);
@@ -94,6 +99,7 @@ function updateScore() {
 
     if (!isOver) {
         score = score + 7;
+        gravity[difficulty] = difficulty === "incremental" ? gravity[difficulty] + 0.5 : gravity[difficulty];
         if (score > bestScore)
             bestScore = score;
         scoreArr = Array.from(String(score)).reverse();
@@ -128,8 +134,8 @@ function checkIfOver(ball) {
             ball.position = new Vec2(Ball.START_X, Ball.START_Y);
             ball.moving = false;
             lives--;
-            //
         } else if (lives === 1) {
+            gravity[difficulty] = difficulty === "hard" ? GRAVITATIONAL_ACCELERATION + 14 : GRAVITATIONAL_ACCELERATION;
             let phrase = score >= bestScore ? ", BEST RECORD!" : "";
             alert("you lose! you got " + score + " points" + phrase);
             isOver = true;
@@ -138,5 +144,9 @@ function checkIfOver(ball) {
             ball.vel = new Vec2(0, 0);
         }
     }
+}
+
+function changeDifficulty(val) {
+    difficulty  = val;
 }
 

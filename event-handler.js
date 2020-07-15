@@ -15,7 +15,6 @@ let sPressed = false;
 let dPressed = false;
 let qPressed = false;
 let ePressed = false;
-let barPressed = true;
 
 function handleDown(e) {
 

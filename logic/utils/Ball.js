@@ -1,9 +1,5 @@
 class Ball {
 
-    static START_X = 4.6;
-    static START_Y = 2;
-    static INIT_VEL = 13.5;
-
     constructor(x, y, radius) {
 
         this.moving = false;
@@ -15,7 +11,7 @@ class Ball {
     throw(shock) {
         if (!this.moving) {
             this.moving = true;
-            this.vel = new Vec2(0, shock * Ball.INIT_VEL);
+            this.vel = new Vec2(0, shock * INIT_VEL);
         }
     }
 

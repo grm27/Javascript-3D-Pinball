@@ -23,7 +23,7 @@ function initCore() {
     buildBumpers();
     buildPaddles();
 
-    ball = new Ball(Ball.START_X, Ball.START_Y, BALL_RADIUS);
+    ball = new Ball(START_X, START_Y, BALL_RADIUS);
 }
 
 function buildBoundaries() {
@@ -123,7 +123,7 @@ function checkIfOver(ball) {
 
     if (ball.position.y < -2 * ball.radius) {
         if (lives > 1) {
-            ball.position = new Vec2(Ball.START_X, Ball.START_Y);
+            ball.position = new Vec2(START_X, START_Y);
             ball.moving = false;
             lives--;
         } else if (lives === 1) {

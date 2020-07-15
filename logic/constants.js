@@ -1,5 +1,4 @@
 const PRECISION = 60;
-const SUBSTEPS = 6;
 const LIVES = 1;
 const TABLE_WIDTH = 4.95;
 const TABLE_HEIGHT = 10.9;
@@ -12,3 +11,9 @@ const PULLER_RETRACTION = -4.0;
 const GRAVITATIONAL_ACCELERATION = -6;
 const PADDLE_SIZE = 0.9;
 const PADDLE_SHOCK = -0.4;
+const IDLE_INCLINATION = -0.523;
+const MAX_INCLINATION = 0.524;
+const STEP = (MAX_INCLINATION - IDLE_INCLINATION) / 0.10;
+const START_X = 4.6;
+const START_Y = 2;
+const INIT_VEL = 13.5;

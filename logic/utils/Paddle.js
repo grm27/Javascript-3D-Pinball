@@ -1,15 +1,14 @@
 class Paddle {
 
-    static IDLE_INCLINATION = -0.523;
-    static MAX_INCLINATION = 0.524;
-    static STEP = (Paddle.MAX_INCLINATION - Paddle.IDLE_INCLINATION) / 0.10;
-
     constructor(position, side, shock, size) {
 
         this.position = position;
         this.side = side;
         this.shock = shock;
         this.size = size;
+        this.active = false;
+        this.isMoving = false;
+        this.anglePerc = 0;
     }
 
     getDir() {
@@ -17,7 +16,7 @@ class Paddle {
     }
 
     getInclination() {
-        let angle = Paddle.IDLE_INCLINATION + (Paddle.MAX_INCLINATION - Paddle.IDLE_INCLINATION) * this.anglePerc;
+        let angle = IDLE_INCLINATION + (MAX_INCLINATION - IDLE_INCLINATION) * this.anglePerc;
         if (this.side === "left")
             return angle;
         else
@@ -28,8 +27,8 @@ class Paddle {
 
         if (this.isMoving) {
             if (this.side === "left" ^ this.active)
-                return -Paddle.STEP;
-            return Paddle.STEP;
+                return -STEP;
+            return STEP;
         }
 
         return 0;
@@ -52,7 +51,4 @@ class Paddle {
             this.isMoving = false;
     }
 
-    active = false;
-    isMoving = false;
-    anglePerc = 0;
 }

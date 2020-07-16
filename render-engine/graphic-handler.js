@@ -55,9 +55,9 @@ function draw() {
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
         node.lightDir = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightDirection);
-        node.lightPos = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightPosition);
-        node.observerObj = utils.multiplyMatrix3Vector3(utils.invertMatrix3(utils.sub3x3from4x4(node.worldMatrix)), [camera_x, camera_y, camera_z]);
-
+        node.lightPos = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightPosition);
+        node.observerObj = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), [camera_x, camera_y, camera_z]);
+        //console.log(node.name + " " + node.observerObj.toString());
         gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
         gl.uniformMatrix4fv(glslLocations.worldMatrixLocation, gl.FALSE, utils.transposeMatrix(node.worldMatrix));
 
@@ -130,6 +130,15 @@ function updateViewMatrix() {
             camera_angle -= CAMERA_ANGLE_STEP;
         }
     }
+
+    if (upArrowPressed)
+        camera_z += 0.1;
+    if (downArrowPressed)
+        camera_z -= 0.1;
+    if (leftArrowPressed)
+        camera_x -= 0.1;
+    if (rightArrowPressed)
+        camera_x += 0.1;
 
 }
 

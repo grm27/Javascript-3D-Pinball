@@ -59,8 +59,6 @@ void main() {
     vec3 nlightDirection = lm.rgb;
     float lightDimension = lm.a;
     float textureInfluence = 1.0;
-    // Computing the color contribution from the texture
-    //vec4 diffuseTextureColorMixture = texture2D(u_texture, fsUVs) * textureInfluence + mDiffColor * (1.0 - textureInfluence) ;
 
     vec4 ambLight = ambientLightColor * ambientLightInfluence;
 

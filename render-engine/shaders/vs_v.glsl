@@ -72,13 +72,12 @@ void main() {
     goureaudSpecular = vec4(0.0, 0.0, 0.0, 0.0);
     goureaudDiffuseAndAmbient = vec4(0.0, 0.0, 0.0, 1.0);
   } else {
-    // Computing the diffuse component of light (Without the texture contribution)
+    // Computing the diffuse component of light, lambert
     vec4 diffuse = lightColor * clamp(dot(nlightDirection, nNormal), 0.0, 1.0) * lightDimension;
     vec4 specular;
 
     if (specularReflection == 1) {
       // Reflection vector for Phong model
-      // reflect() --> For a given incident vector I and surface normal N reflect returns the reflection direction calculated as I - 2.0 * dot(N, I) * N.
       vec3 reflection = -reflect(nlightDirection, nNormal);
       specular = mSpecColor * lightColor * pow(clamp(dot(reflection, nEyeDirection), 0.0, 1.0), mSpecPower) * lightDimension;
     } else if (specularReflection == 0) {

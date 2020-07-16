@@ -246,6 +246,7 @@ function loadGlslProperties() {
         positionAttributeLocation: gl.getAttribLocation(programArray[currShader], "a_position"),
         normalsAttribLocation: gl.getAttribLocation(programArray[currShader], "inNormal"),
         uvAttributeLocation: gl.getAttribLocation(programArray[currShader], "a_uv"),
+        nMatrixLocation: gl.getUniformLocation(programArray[currShader], "nMatrix"),
         matrixLocation: gl.getUniformLocation(programArray[currShader], "matrix"),
         worldMatrixLocation: gl.getUniformLocation(programArray[currShader], "world_matrix"),
         textLocation: gl.getUniformLocation(programArray[currShader], "u_texture"),

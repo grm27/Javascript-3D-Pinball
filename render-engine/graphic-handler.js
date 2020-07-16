@@ -23,7 +23,7 @@ let ambientLightInfluence = 0.0;
 let currentLightType = 5;
 let currentSpecularReflection = 1;
 let objectSpecularPower = 20.0;
-
+let eye = [camera_x, camera_y, camera_z];
 function main() {
 
     draw();
@@ -54,12 +54,10 @@ function draw() {
         let viewWorldMatrix = utils.multiplyMatrices(viewMatrix, node.worldMatrix);
         let projectionMatrix = utils.multiplyMatrices(perspectiveMatrix, viewWorldMatrix);
 
-        node.lightDir = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightDirection);
-        node.lightPos = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), lightPosition);
-        node.observerObj = utils.multiplyMatrix3Vector3(utils.transposeMatrix3(utils.sub3x3from4x4(node.worldMatrix)), [camera_x, camera_y, camera_z]);
-        //console.log(node.name + " " + node.observerObj.toString());
         gl.uniformMatrix4fv(glslLocations.matrixLocation, gl.FALSE, utils.transposeMatrix(projectionMatrix));
         gl.uniformMatrix4fv(glslLocations.worldMatrixLocation, gl.FALSE, utils.transposeMatrix(node.worldMatrix));
+
+        gl.uniformMatrix4fv(glslLocations.nMatrixLocation, gl.FALSE, utils.invertMatrix(utils.transposeMatrix(node.worldMatrix)));
 
         gl.uniform4f(glslLocations.ambientLocation, ambientLightColor[0],
             ambientLightColor[1],
@@ -72,15 +70,15 @@ function draw() {
             lightColor[1],
             lightColor[2],
             lightColor[3]);
-        gl.uniform3f(glslLocations.lightDirection, node.lightDir[0],
-            node.lightDir[1],
-            node.lightDir[2]);
-        gl.uniform3f(glslLocations.lightPosition, node.lightPos[0],
-            node.lightPos[1],
-            node.lightPos[2]);
-        gl.uniform3f(glslLocations.eyePosition, node.observerObj[0],
-            node.observerObj[1],
-            node.observerObj[2]);
+        gl.uniform3f(glslLocations.lightDirection, lightDirection[0],
+            lightDirection[1],
+            lightDirection[2]);
+        gl.uniform3f(glslLocations.lightPosition, lightPosition[0],
+            lightPosition[1],
+            lightPosition[2]);
+        gl.uniform3f(glslLocations.eyePosition, eye[0],
+            eye[1],
+            eye[2]);
         gl.uniform1i(glslLocations.specularReflLocation, currentSpecularReflection);
         gl.uniform4f(glslLocations.mSpecColorLocation, specularColor[0],
             specularColor[1],

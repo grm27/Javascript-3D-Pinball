@@ -22,6 +22,7 @@ uniform vec3 eyePosition;
 
 uniform mat4 matrix;
 uniform mat4 world_matrix;
+uniform mat4 nMatrix;
 
 vec4 lightModel(int lt, vec3 pos) {
 
@@ -59,8 +60,9 @@ vec4 lightModel(int lt, vec3 pos) {
 void main() {
   uvFS = a_uv;
   gl_Position = matrix * vec4(a_position,1.0);
+  vec3 inNormal_n = mat3(nMatrix)*inNormal;
   vec3 world_position = (world_matrix * vec4(a_position,1.0)).xyz;
-  vec3 nNormal = normalize(inNormal);
+  vec3 nNormal = normalize(inNormal_n);
   vec3 nEyeDirection = normalize(eyePosition - world_position);
 
   vec4 lm = lightModel(lightType, world_position);

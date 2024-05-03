@@ -14,7 +14,6 @@ const CAM_MAX_ELEVATION = 90.0;
 const CAM_MAX_ANGLE = 360.0;
 const CAM_MIN_ELEVATION = -90.0;
 const CAM_MIN_ANGLE = -90.0;
-const CAMERA_STEP = 0.1;
 const CAMERA_ANGLE_STEP = 1.0;
 
 

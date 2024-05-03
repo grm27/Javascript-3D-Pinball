@@ -26,6 +26,12 @@ Just follow the instructions on your right ;)
 
 Contributions to this project are welcome! If you have ideas for improvements or have found a bug, feel free to fork the repository and submit a pull request. You can also open an issue to discuss potential changes or additions.
 
+## Technical Highlights
+
+- **WebGL Rendering**: The game leverages WebGL for rendering complex 3D graphics in real-time, directly within the browser.
+- **Dynamic Camera System**: Utilizes a flexible camera system for real-time viewing angle adjustments.
+- **Interactive Lighting Controls**: Features an interactive system for real-time lighting adjustments, enhancing both the aesthetics and gameplay experience.
+
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License - see the [LICENSE](https://opensource.org/license/mit) file for details.

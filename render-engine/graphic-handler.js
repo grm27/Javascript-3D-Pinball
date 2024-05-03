@@ -293,7 +293,7 @@ function updateShader(val) {
     currShader = parseInt(val);
 }
 
-const elevation = 8.5335; // y
+let elevation = 8.5335; // y
 const elevation_reference = -5.9728; // at which z the elevation was measured
 const slope = 0.11411241; // tan(6.51 deg)
 

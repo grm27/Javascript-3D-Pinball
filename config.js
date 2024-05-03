@@ -1,7 +1,4 @@
 //Project locations constants
-const PATH = window.location.pathname;
-const PAGE = PATH.split('/').pop();
-const BASE_DIR = window.location.href.replace(PAGE, '');
 const SHADER_DIR = "../render-engine/shaders/";
 const ASSETS_OBJECT_DIR = "assets/objects/";
 const ASSETS_TEXTURE_DIR = "assets/StarWarsPinball.png";
@@ -13,10 +10,6 @@ const CAMERA_Z = -7.0;
 const CAMERA_ELEVATION = -54;
 const CAMERA_ANGLE = 180.0;
 
-const CAM_MAX_X = 10.0;
-const CAM_MAX_Y = 12.5;
-const CAM_MIN_X = -10.0;
-const CAM_MIN_Y = -10.0;
 const CAM_MAX_ELEVATION = 90.0;
 const CAM_MAX_ANGLE = 360.0;
 const CAM_MIN_ELEVATION = -90.0;
@@ -36,13 +29,7 @@ const TABLE_MIN_Z = -100.0;
 const TABLE_X = 0.0;
 const TABLE_Y = 0.0;
 const TABLE_Z = 0.0;
-const TABLE_MAX_ELEVATION = 90.0;
-const TABLE_MAX_ANGLE = 90.0;
-const TABLE_MIN_ELEVATION = -90.0;
-const TABLE_MIN_ANGLE = -90.0;
 const TABLE_STEP = 0.05;
-const TABLE_ANGLE_STEP = 1.0;
-
 
 //OBJECT CONSTANTS
 const OBJECT_X = 3;
@@ -139,6 +126,3 @@ const localMatrices = [
     utils.MakeWorld(-1.307, 8.4032, -5.6357, -3.24, 150.0, -5.64, 1.0),
     utils.MakeWorld(-2.5264, 8.3925, -7.5892, -90.0, 0.0, 0.0, 1.0)
 ];
-
-
-

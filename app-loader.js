@@ -228,7 +228,7 @@ function loadTextures() {
     texture = gl.createTexture();
 
     let image = new Image();
-    image.src = BASE_DIR + ASSETS_TEXTURE_DIR;
+    image.src = ASSETS_TEXTURE_DIR;
     image.onload = function () {
         console.log(texture);
         gl.bindTexture(gl.TEXTURE_2D, texture);

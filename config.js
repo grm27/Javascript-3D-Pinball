@@ -2,10 +2,9 @@
 const PATH = window.location.pathname;
 const PAGE = PATH.split('/').pop();
 const BASE_DIR = window.location.href.replace(PAGE, '');
-const SHADER_DIR = BASE_DIR + "render-engine/shaders/";
+const SHADER_DIR = "../render-engine/shaders/";
 const ASSETS_OBJECT_DIR = "assets/objects/";
 const ASSETS_TEXTURE_DIR = "assets/StarWarsPinball.png";
-
 
 //Camera constants
 const CAMERA_X = 0.0;
@@ -91,28 +90,28 @@ const objectIndex = {
 
 
 const modelSources = [
-    BASE_DIR + ASSETS_OBJECT_DIR + "Ball.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "Body.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "bumper1.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "bumper2.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "bumper3.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DL1.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DL2.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DL3.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DL4.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DL5.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DL6.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DR1.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DR2.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DR3.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DR4.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DR5.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "DR6.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "LeftButton.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "RightButton.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "LeftFlipper.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "RightFlipper.obj",
-    BASE_DIR + ASSETS_OBJECT_DIR + "Puller.obj",
+    ASSETS_OBJECT_DIR + "Ball.obj",
+    ASSETS_OBJECT_DIR + "Body.obj",
+    ASSETS_OBJECT_DIR + "bumper1.obj",
+    ASSETS_OBJECT_DIR + "bumper2.obj",
+    ASSETS_OBJECT_DIR + "bumper3.obj",
+    ASSETS_OBJECT_DIR + "DL1.obj",
+    ASSETS_OBJECT_DIR + "DL2.obj",
+    ASSETS_OBJECT_DIR + "DL3.obj",
+    ASSETS_OBJECT_DIR + "DL4.obj",
+    ASSETS_OBJECT_DIR + "DL5.obj",
+    ASSETS_OBJECT_DIR + "DL6.obj",
+    ASSETS_OBJECT_DIR + "DR1.obj",
+    ASSETS_OBJECT_DIR + "DR2.obj",
+    ASSETS_OBJECT_DIR + "DR3.obj",
+    ASSETS_OBJECT_DIR + "DR4.obj",
+    ASSETS_OBJECT_DIR + "DR5.obj",
+    ASSETS_OBJECT_DIR + "DR6.obj",
+    ASSETS_OBJECT_DIR + "LeftButton.obj",
+    ASSETS_OBJECT_DIR + "RightButton.obj",
+    ASSETS_OBJECT_DIR + "LeftFlipper.obj",
+    ASSETS_OBJECT_DIR + "RightFlipper.obj",
+    ASSETS_OBJECT_DIR + "Puller.obj",
 ];
 
 //same order of model sources and object index
